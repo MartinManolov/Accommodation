@@ -1,16 +1,16 @@
-﻿using Accommodation.Application.Common.Interfaces;
-using Accommodation.Infrastructure.Files;
-using Accommodation.Infrastructure.Identity;
-using Accommodation.Infrastructure.Persistence;
-using Accommodation.Infrastructure.Services;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace Accommodation.Infrastructure
+﻿namespace Accommodation.Infrastructure
 {
+    using Accommodation.Application.Common.Interfaces;
+    using Accommodation.Infrastructure.Files;
+    using Accommodation.Infrastructure.Identity;
+    using Accommodation.Infrastructure.Persistence;
+    using Accommodation.Infrastructure.Services;
+    using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+
     public static class DependencyInjection
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)

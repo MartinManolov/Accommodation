@@ -1,15 +1,15 @@
-﻿using Accommodation.Application.Common.Exceptions;
-using Accommodation.Application.Common.Interfaces;
-using Accommodation.Application.Common.Security;
-using MediatR;
-using System;
-using System.Linq;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Accommodation.Application.Common.Behaviours
+﻿namespace Accommodation.Application.Common.Behaviours
 {
+    using System;
+    using System.Linq;
+    using System.Reflection;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Accommodation.Application.Common.Exceptions;
+    using Accommodation.Application.Common.Interfaces;
+    using Accommodation.Application.Common.Security;
+    using MediatR;
+
     public class AuthorizationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     {
         private readonly ICurrentUserService _currentUserService;

@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace Accommodation.Domain.Common
+﻿namespace Accommodation.Domain.Common
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     // Learn more: https://docs.microsoft.com/en-us/dotnet/standard/microservices-architecture/microservice-ddd-cqrs-patterns/implement-value-objects
     public abstract class ValueObject
     {
@@ -18,7 +18,7 @@ namespace Accommodation.Domain.Common
 
         protected static bool NotEqualOperator(ValueObject left, ValueObject right)
         {
-            return !(EqualOperator(left, right));
+            return !EqualOperator(left, right);
         }
 
         protected abstract IEnumerable<object> GetEqualityComponents();

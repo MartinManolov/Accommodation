@@ -1,12 +1,12 @@
-﻿using Accommodation.Application.Common.Behaviours;
-using AutoMapper;
-using FluentValidation;
-using MediatR;
-using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
-
-namespace Accommodation.Application
+﻿namespace Accommodation.Application
 {
+    using System.Reflection;
+    using Accommodation.Application.Common.Behaviours;
+    using AutoMapper;
+    using FluentValidation;
+    using MediatR;
+    using Microsoft.Extensions.DependencyInjection;
+
     public static class DependencyInjection
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
