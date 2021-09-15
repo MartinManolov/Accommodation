@@ -27,6 +27,6 @@
 
         public string View { get; set; }
 
-        public ICollection<Offer> Offers { get; set; }
+        public ICollection<Offer> Offers { get; private set; }
     }
 }

@@ -26,9 +26,9 @@
 
         public string PhoneNumber { get; set; }
 
-        public ICollection<Review> Reviews { get; set; }
+        public ICollection<Review> Reviews { get; private set; }
 
-        public ICollection<Room> Rooms { get; set; }
+        public ICollection<Room> Rooms { get; private set; }
 
         public int Rating
         {
