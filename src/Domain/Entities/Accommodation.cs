@@ -7,9 +7,14 @@
 
     public class Accommodation : AuditableEntity
     {
-        public Accommodation()
+        public Accommodation(string name, string desccription,
+                            string[] facilities, string phoneNumber)
         {
             this.Id = Guid.NewGuid().ToString();
+            this.Name = name;
+            this.Description = desccription;
+            this.Facilities = facilities;
+            this.PhoneNumber = phoneNumber;
             this.Reviews = new HashSet<Review>();
             this.Rooms = new HashSet<Room>();
         }
@@ -21,6 +26,8 @@
         public string LocationId { get; set; }
 
         public Location Location { get; set; }
+
+        public string Description { get; set; }
 
         public ICollection<string> Facilities { get; set; }
 
