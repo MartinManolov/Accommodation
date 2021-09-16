@@ -1,8 +1,10 @@
 ﻿namespace Accommodation.Application.Accommodations.Commands
 {
+    using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
     using Accommodation.Application.Common.Interfaces;
+    using Accommodation.Application.Facilities.Commands;
     using Accommodation.Application.Locations.Commands;
     using Accommodation.Domain.Entities;
     using MediatR;
@@ -10,7 +12,7 @@
     public record CreateHotelCommand (
         string Name,
         string Desccription,
-        string[] Facilities,
+        List<CreateFacilityCommand> Facilities,
         string PhoneNumber,
         string Email,
         decimal LocationLatitude,
@@ -31,9 +33,15 @@
 
         public async Task<string> Handle(CreateHotelCommand request, CancellationToken cancellationToken)
         {
-            var hotel = new Hotel(request.Name, request.Desccription,
-                                  request.Facilities, request.PhoneNumber,
-                                  request.Email);
+            var hotel = new Hotel(request.Name, request.Desccription, request.PhoneNumber, request.Email);
+
+            var facilities = new List<Facility>();
+            foreach (var facility in request.Facilities)
+            {
+                facilities.Add(await _mediator.Send(facility));
+            }
+
+            hotel.Facilities = facilities;
 
             var location = new CreateLocationCommand(request.LocationLatitude, request.LocationLongitude);
             var locationId = await _mediator.Send(location);

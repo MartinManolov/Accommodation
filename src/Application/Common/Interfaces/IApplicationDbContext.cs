@@ -21,6 +21,8 @@
 
         public DbSet<Room> Rooms { get; set; }
 
+        public DbSet<Facility> Facilities { get; set; }
+
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

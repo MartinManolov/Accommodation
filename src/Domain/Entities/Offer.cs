@@ -1,8 +1,9 @@
 ﻿namespace Accommodation.Domain.Entities
 {
+    using Accommodation.Domain.Common;
     using System;
 
-    public class Offer
+    public class Offer : AuditableEntity
     {
         public Offer()
         {
