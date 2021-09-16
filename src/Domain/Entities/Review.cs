@@ -1,7 +1,6 @@
 ﻿namespace Accommodation.Domain.Entities
 {
     using System;
-    using global::Accommodation.Domain.ValueObjects;
 
     public class Review
     {
@@ -16,9 +15,9 @@
 
         public Guest Guest { get; set; }
 
-        public string AccommodationId { get; set; }
+        public string HotelId { get; set; }
 
-        public Accommodation Accommodation { get; set; }
+        public Hotel Hotel { get; set; }
 
         public string Content { get; set; }
 

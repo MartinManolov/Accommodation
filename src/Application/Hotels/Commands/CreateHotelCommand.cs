@@ -7,17 +7,18 @@
     using Accommodation.Domain.Entities;
     using MediatR;
 
-    public record CreateAccommodationCommand (
+    public record CreateHotelCommand (
         string Name,
         string Desccription,
         string[] Facilities,
         string PhoneNumber,
+        string Email,
         decimal LocationLatitude,
         decimal LocationLongitude) : IRequest<string>
     {
     }
 
-    public class Handler : IRequestHandler<CreateAccommodationCommand, string>
+    public class Handler : IRequestHandler<CreateHotelCommand, string>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMediator _mediator;
@@ -28,20 +29,21 @@
             _mediator = mediator;
         }
 
-        public async Task<string> Handle(CreateAccommodationCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(CreateHotelCommand request, CancellationToken cancellationToken)
         {
-            var accommodation = new Accommodation(request.Name, request.Desccription,
-                                                 request.Facilities, request.PhoneNumber);
+            var hotel = new Hotel(request.Name, request.Desccription,
+                                  request.Facilities, request.PhoneNumber,
+                                  request.Email);
 
             var location = new CreateLocationCommand(request.LocationLatitude, request.LocationLongitude);
             var locationId = await _mediator.Send(location);
 
-            accommodation.LocationId = locationId;
+            hotel.LocationId = locationId;
 
-            await _context.Accommodations.AddAsync(accommodation);
+            await _context.Hotels.AddAsync(hotel);
             await _context.SaveChangesAsync(cancellationToken);
 
-            return accommodation.Id;
+            return hotel.Id;
         }
     }
 }

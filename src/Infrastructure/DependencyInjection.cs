@@ -1,7 +1,6 @@
 ﻿namespace Accommodation.Infrastructure
 {
     using Accommodation.Application.Common.Interfaces;
-    using Accommodation.Infrastructure.Files;
     using Accommodation.Infrastructure.Identity;
     using Accommodation.Infrastructure.Persistence;
     using Accommodation.Infrastructure.Services;

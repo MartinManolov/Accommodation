@@ -1,18 +1,18 @@
-﻿using Accommodation.Application.Common.Interfaces;
-using Accommodation.Domain.Common;
-using Accommodation.Domain.Entities;
-using Accommodation.Infrastructure.Identity;
-using IdentityServer4.EntityFramework.Options;
-using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using System.Linq;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Accommodation.Infrastructure.Persistence
+﻿namespace Accommodation.Infrastructure.Persistence
 {
+    using System.Linq;
+    using System.Reflection;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Accommodation.Application.Common.Interfaces;
+    using Accommodation.Domain.Common;
+    using Accommodation.Domain.Entities;
+    using Accommodation.Infrastructure.Identity;
+    using IdentityServer4.EntityFramework.Options;
+    using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Options;
+
     public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, IApplicationDbContext
     {
         private readonly ICurrentUserService _currentUserService;
@@ -31,6 +31,19 @@ namespace Accommodation.Infrastructure.Persistence
             _dateTime = dateTime;
         }
 
+        public DbSet<Hotel> Hotels { get; set; }
+
+        public DbSet<Guest> Guests { get; set; }
+
+        public DbSet<Location> Locations { get; set; }
+
+        public DbSet<Offer> Offers { get; set; }
+
+        public DbSet<Reservation> Reservations { get; set; }
+
+        public DbSet<Review> Reviews { get; set; }
+
+        public DbSet<Room> Rooms { get; set; }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {

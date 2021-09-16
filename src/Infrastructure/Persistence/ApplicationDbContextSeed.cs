@@ -1,12 +1,10 @@
-﻿using Accommodation.Domain.Entities;
-using Accommodation.Domain.ValueObjects;
-using Accommodation.Infrastructure.Identity;
-using Microsoft.AspNetCore.Identity;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Accommodation.Infrastructure.Persistence
+﻿namespace Accommodation.Infrastructure.Persistence
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Accommodation.Infrastructure.Identity;
+    using Microsoft.AspNetCore.Identity;
+
     public static class ApplicationDbContextSeed
     {
         public static async Task SeedDefaultUserAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
@@ -30,8 +28,6 @@ namespace Accommodation.Infrastructure.Persistence
         public static async Task SeedSampleDataAsync(ApplicationDbContext context)
         {
             // Seed, if necessary
-            
-            }
         }
     }
 }

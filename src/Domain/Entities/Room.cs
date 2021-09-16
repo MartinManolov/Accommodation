@@ -13,9 +13,9 @@
 
         public string Id { get; set; }
 
-        public string AccommodationId { get; set; }
+        public string HotelId { get; set; }
 
-        public Accommodation Accommodation { get; set; }
+        public Hotel Hotel { get; set; }
 
         public int Sleeps { get; set; }
 

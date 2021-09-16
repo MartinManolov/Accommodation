@@ -2,9 +2,9 @@
 {
     using FluentValidation;
 
-    public class CreateAccommodationCommandValidator : AbstractValidator<CreateAccommodationCommand>
+    public class CreateHotelCommandValidator : AbstractValidator<CreateHotelCommand>
     {
-        public CreateAccommodationCommandValidator()
+        public CreateHotelCommandValidator()
         {
             RuleFor(v => v.Name)
                 .MinimumLength(3)
@@ -13,6 +13,9 @@
 
             RuleFor(v => v.Desccription)
                 .MaximumLength(200);
+
+            RuleFor(v => v.Email)
+                .EmailAddress();
         }
     }
 }

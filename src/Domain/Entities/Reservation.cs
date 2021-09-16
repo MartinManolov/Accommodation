@@ -15,9 +15,9 @@
 
         public Guest Guest { get; set; }
 
-        public string AccommpdationId { get; set; }
+        public string HotelId { get; set; }
 
-        public Accommodation Accommodation { get; set; }
+        public Hotel Hotel { get; set; }
 
         public decimal Prce { get; set; }
 

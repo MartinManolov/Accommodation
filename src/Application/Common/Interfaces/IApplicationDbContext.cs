@@ -7,7 +7,7 @@
 
     public interface IApplicationDbContext
     {
-        public DbSet<Accommodation> Accommodations { get; set; }
+        public DbSet<Hotel> Hotels { get; set; }
 
         public DbSet<Guest> Guests { get; set; }
 
