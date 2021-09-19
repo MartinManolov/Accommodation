@@ -15,8 +15,8 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angula
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
 export interface IHotelsClient {
-    getAll(): Observable<string[]>;
-    post(value: string): Observable<void>;
+    getAll(): Observable<HotelsListVm>;
+    post(command: CreateHotelCommand): Observable<number>;
     get(id: number): Observable<string>;
     put(id: number, value: string): Observable<void>;
     delete(id: number): Observable<void>;
@@ -35,7 +35,7 @@ export class HotelsClient implements IHotelsClient {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    getAll(): Observable<string[]> {
+    getAll(): Observable<HotelsListVm> {
         let url_ = this.baseUrl + "/api/Hotels";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -54,14 +54,14 @@ export class HotelsClient implements IHotelsClient {
                 try {
                     return this.processGetAll(<any>response_);
                 } catch (e) {
-                    return <Observable<string[]>><any>_observableThrow(e);
+                    return <Observable<HotelsListVm>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<string[]>><any>_observableThrow(response_);
+                return <Observable<HotelsListVm>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAll(response: HttpResponseBase): Observable<string[]> {
+    protected processGetAll(response: HttpResponseBase): Observable<HotelsListVm> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -72,14 +72,7 @@ export class HotelsClient implements IHotelsClient {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(item);
-            }
-            else {
-                result200 = <any>null;
-            }
+            result200 = HotelsListVm.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -87,14 +80,14 @@ export class HotelsClient implements IHotelsClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<string[]>(<any>null);
+        return _observableOf<HotelsListVm>(<any>null);
     }
 
-    post(value: string): Observable<void> {
+    post(command: CreateHotelCommand): Observable<number> {
         let url_ = this.baseUrl + "/api/Hotels";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(value);
+        const content_ = JSON.stringify(command);
 
         let options_ : any = {
             body: content_,
@@ -102,6 +95,7 @@ export class HotelsClient implements IHotelsClient {
             responseType: "blob",
             headers: new HttpHeaders({
                 "Content-Type": "application/json",
+                "Accept": "application/json"
             })
         };
 
@@ -112,14 +106,14 @@ export class HotelsClient implements IHotelsClient {
                 try {
                     return this.processPost(<any>response_);
                 } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
+                    return <Observable<number>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<void>><any>_observableThrow(response_);
+                return <Observable<number>><any>_observableThrow(response_);
         }));
     }
 
-    protected processPost(response: HttpResponseBase): Observable<void> {
+    protected processPost(response: HttpResponseBase): Observable<number> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -128,14 +122,17 @@ export class HotelsClient implements IHotelsClient {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<void>(<any>null);
+        return _observableOf<number>(<any>null);
     }
 
     get(id: number): Observable<string> {
@@ -286,6 +283,202 @@ export class HotelsClient implements IHotelsClient {
         }
         return _observableOf<void>(<any>null);
     }
+}
+
+export class HotelsListVm implements IHotelsListVm {
+    hotels?: HotelInListDto[] | undefined;
+
+    constructor(data?: IHotelsListVm) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["hotels"])) {
+                this.hotels = [] as any;
+                for (let item of _data["hotels"])
+                    this.hotels!.push(HotelInListDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): HotelsListVm {
+        data = typeof data === 'object' ? data : {};
+        let result = new HotelsListVm();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.hotels)) {
+            data["hotels"] = [];
+            for (let item of this.hotels)
+                data["hotels"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IHotelsListVm {
+    hotels?: HotelInListDto[] | undefined;
+}
+
+export class HotelInListDto implements IHotelInListDto {
+    id?: string | undefined;
+    name?: string | undefined;
+    phoneNumber?: string | undefined;
+    rating?: number;
+
+    constructor(data?: IHotelInListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.phoneNumber = _data["phoneNumber"];
+            this.rating = _data["rating"];
+        }
+    }
+
+    static fromJS(data: any): HotelInListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new HotelInListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["phoneNumber"] = this.phoneNumber;
+        data["rating"] = this.rating;
+        return data; 
+    }
+}
+
+export interface IHotelInListDto {
+    id?: string | undefined;
+    name?: string | undefined;
+    phoneNumber?: string | undefined;
+    rating?: number;
+}
+
+export class CreateHotelCommand implements ICreateHotelCommand {
+    name?: string | undefined;
+    desccription?: string | undefined;
+    facilities?: CreateFacilityCommand[] | undefined;
+    phoneNumber?: string | undefined;
+    email?: string | undefined;
+    locationLatitude?: number;
+    locationLongitude?: number;
+
+    constructor(data?: ICreateHotelCommand) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.name = _data["name"];
+            this.desccription = _data["desccription"];
+            if (Array.isArray(_data["facilities"])) {
+                this.facilities = [] as any;
+                for (let item of _data["facilities"])
+                    this.facilities!.push(CreateFacilityCommand.fromJS(item));
+            }
+            this.phoneNumber = _data["phoneNumber"];
+            this.email = _data["email"];
+            this.locationLatitude = _data["locationLatitude"];
+            this.locationLongitude = _data["locationLongitude"];
+        }
+    }
+
+    static fromJS(data: any): CreateHotelCommand {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateHotelCommand();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["desccription"] = this.desccription;
+        if (Array.isArray(this.facilities)) {
+            data["facilities"] = [];
+            for (let item of this.facilities)
+                data["facilities"].push(item.toJSON());
+        }
+        data["phoneNumber"] = this.phoneNumber;
+        data["email"] = this.email;
+        data["locationLatitude"] = this.locationLatitude;
+        data["locationLongitude"] = this.locationLongitude;
+        return data; 
+    }
+}
+
+export interface ICreateHotelCommand {
+    name?: string | undefined;
+    desccription?: string | undefined;
+    facilities?: CreateFacilityCommand[] | undefined;
+    phoneNumber?: string | undefined;
+    email?: string | undefined;
+    locationLatitude?: number;
+    locationLongitude?: number;
+}
+
+export class CreateFacilityCommand implements ICreateFacilityCommand {
+    name?: string | undefined;
+
+    constructor(data?: ICreateFacilityCommand) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.name = _data["name"];
+        }
+    }
+
+    static fromJS(data: any): CreateFacilityCommand {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateFacilityCommand();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        return data; 
+    }
+}
+
+export interface ICreateFacilityCommand {
+    name?: string | undefined;
 }
 
 export class SwaggerException extends Error {

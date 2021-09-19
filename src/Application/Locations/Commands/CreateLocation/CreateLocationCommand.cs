@@ -1,4 +1,4 @@
-﻿namespace Accommodation.Application.Locations.Commands
+﻿namespace Accommodation.Application.Locations.Commands.CreateLocation
 {
     using System.Threading;
     using System.Threading.Tasks;
@@ -10,11 +10,11 @@
     {
     }
 
-    public class Handler : IRequestHandler<CreateLocationCommand, string>
+    public class CreateLocationCommandHandler : IRequestHandler<CreateLocationCommand, string>
     {
         private readonly IApplicationDbContext _context;
 
-        public Handler(IApplicationDbContext context)
+        public CreateLocationCommandHandler(IApplicationDbContext context)
         {
             _context = context;
         }

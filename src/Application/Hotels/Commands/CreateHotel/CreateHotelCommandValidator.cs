@@ -1,4 +1,4 @@
-﻿namespace Accommodation.Application.Accommodations.Commands
+﻿namespace Accommodation.Application.Accommodations.Commands.CreateHotel
 {
     using FluentValidation;
 

@@ -1,11 +1,11 @@
-﻿namespace Accommodation.Application.Accommodations.Commands
+﻿namespace Accommodation.Application.Accommodations.Commands.CreateHotel
 {
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
     using Accommodation.Application.Common.Interfaces;
-    using Accommodation.Application.Facilities.Commands;
-    using Accommodation.Application.Locations.Commands;
+    using Accommodation.Application.Facilities.Commands.CreateFacility;
+    using Accommodation.Application.Locations.Commands.CreateLocation;
     using Accommodation.Domain.Entities;
     using MediatR;
 

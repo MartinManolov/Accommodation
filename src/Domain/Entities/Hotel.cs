@@ -7,9 +7,7 @@
 
     public class Hotel : AuditableEntity
     {
-        public Hotel(string name, string description,
-                            string phoneNumber,
-                            string email)
+        public Hotel(string name, string description, string phoneNumber, string email)
         {
             this.Id = Guid.NewGuid().ToString();
             this.Name = name;

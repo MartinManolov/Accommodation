@@ -1,4 +1,4 @@
-﻿namespace Accommodation.Application.Locations.Commands
+﻿namespace Accommodation.Application.Locations.Commands.CreateLocation
 {
     using FluentValidation;
 

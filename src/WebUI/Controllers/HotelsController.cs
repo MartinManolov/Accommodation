@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Accommodation.Application.Accommodations.Commands;
+using Accommodation.Application.Accommodations.Commands.CreateHotel;
+using Accommodation.Application.Hotels.Queries.GetHotelsList;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,36 +12,37 @@ using System.Threading.Tasks;
 
 namespace Accommodation.WebUI.Controllers
 {
-    [Route("api/[controller]")]
-    public class HotelsController : ControllerBase
+    [Authorize]
+    public class HotelsController : ApiControllerBase
     {
-        // GET: api/<HotelsController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        [AllowAnonymous]
+        public async Task<ActionResult<HotelsListVm>> GetAll()
         {
-            return new string[] { "value1", "value2" };
+            var vm = await Mediator.Send(new GetHotelsListQuery());
+
+            return base.Ok(vm);
         }
 
-        // GET api/<HotelsController>/5
         [HttpGet("{id}")]
         public string Get(int id)
         {
             return "value";
         }
 
-        // POST api/<HotelsController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        [AllowAnonymous]
+        public async Task<ActionResult<int>> Post([FromBody] CreateHotelCommand command)
         {
+            var hotelId = await Mediator.Send(command);
+            return Ok(hotelId);
         }
 
-        // PUT api/<HotelsController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE api/<HotelsController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

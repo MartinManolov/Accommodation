@@ -1,4 +1,4 @@
-﻿namespace Accommodation.Application.Facilities.Commands
+﻿namespace Accommodation.Application.Facilities.Commands.CreateFacility
 {
     using System.Threading;
     using System.Threading.Tasks;
@@ -10,11 +10,11 @@
     {
     }
 
-    public class Handler : IRequestHandler<CreateFacilityCommand, Facility>
+    public class CreateFacilityCommandHandler : IRequestHandler<CreateFacilityCommand, Facility>
     {
         private readonly IApplicationDbContext _context;
 
-        public Handler(IApplicationDbContext context)
+        public CreateFacilityCommandHandler(IApplicationDbContext context)
         {
             _context = context;
         }

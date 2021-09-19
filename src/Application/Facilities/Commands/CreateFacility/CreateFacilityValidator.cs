@@ -1,12 +1,7 @@
-﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Accommodation.Application.Facilities.Commands
+﻿namespace Accommodation.Application.Facilities.Commands.CreateFacility
 {
+    using FluentValidation;
+
     public class CreateFacilityValidator : AbstractValidator<CreateFacilityCommand>
     {
         public CreateFacilityValidator()
