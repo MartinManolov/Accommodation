@@ -15,6 +15,8 @@
         List<CreateFacilityCommand> Facilities,
         string PhoneNumber,
         string Email,
+        string Cuntry,
+        string City,
         decimal LocationLatitude,
         decimal LocationLongitude) : IRequest<string>
     {
@@ -33,7 +35,7 @@
 
         public async Task<string> Handle(CreateHotelCommand request, CancellationToken cancellationToken)
         {
-            var hotel = new Hotel(request.Name, request.Desccription, request.PhoneNumber, request.Email);
+            var hotel = new Hotel(request.Name, request.Desccription, request.PhoneNumber, request.Email, request.Cuntry, request.City);
 
             var facilities = new List<Facility>();
             foreach (var facility in request.Facilities)

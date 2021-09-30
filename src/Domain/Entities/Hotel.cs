@@ -7,13 +7,15 @@
 
     public class Hotel : AuditableEntity
     {
-        public Hotel(string name, string description, string phoneNumber, string email)
+        public Hotel(string name, string description, string phoneNumber, string email, string country, string city)
         {
             this.Id = Guid.NewGuid().ToString();
             this.Name = name;
             this.Description = description;
             this.PhoneNumber = phoneNumber;
             this.Email = email;
+            this.Country = country;
+            this.City = city;
             this.Reviews = new HashSet<Review>();
             this.Rooms = new HashSet<Room>();
             this.Facilities = new HashSet<Facility>();
@@ -26,6 +28,10 @@
         public string LocationId { get; set; }
 
         public Location Location { get; set; }
+
+        public string Country { get; set; }
+
+        public string City { get; set; }
 
         public string Description { get; set; }
 
