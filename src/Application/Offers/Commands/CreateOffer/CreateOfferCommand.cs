@@ -8,6 +8,7 @@
     using MediatR;
 
     public record CreateOfferCommand(
+        string HotelId,
         string RoomId,
         DateTime FromDate,
         DateTime ToDate,
@@ -29,6 +30,7 @@
         {
             var offer = new Offer
             {
+                HotelId = request.HotelId,
                 RoomId = request.RoomId,
                 FromDate = request.FromDate,
                 ToDate = request.ToDate,

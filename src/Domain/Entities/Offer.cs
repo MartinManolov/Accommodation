@@ -1,7 +1,7 @@
 ﻿namespace Accommodation.Domain.Entities
 {
-    using Accommodation.Domain.Common;
     using System;
+    using Accommodation.Domain.Common;
 
     public class Offer : AuditableEntity
     {
@@ -11,6 +11,10 @@
         }
 
         public string Id { get; set; }
+
+        public string HotelId { get; set; }
+
+        public Hotel Hotel { get; set; }
 
         public string RoomId { get; set; }
 
