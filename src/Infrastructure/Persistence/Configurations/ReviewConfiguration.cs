@@ -15,7 +15,7 @@
                 .IsRequired();
 
             builder.Property(e => e.Content)
-                .HasMaxLength(200);
+                .HasMaxLength(350);
         }
     }
 }
