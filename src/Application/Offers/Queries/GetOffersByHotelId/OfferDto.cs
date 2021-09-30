@@ -1,10 +1,6 @@
 ﻿namespace Accommodation.Application.Offers.Queries.GetOffersByHotelId
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using Accommodation.Application.Common.Mappings;
     using Accommodation.Domain.Entities;
 

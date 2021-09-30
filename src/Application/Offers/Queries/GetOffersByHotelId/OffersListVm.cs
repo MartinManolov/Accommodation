@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    public class OfferListVm
+    public class OffersListVm
     {
         public IList<OfferDto> Offers { get; set; }
     }

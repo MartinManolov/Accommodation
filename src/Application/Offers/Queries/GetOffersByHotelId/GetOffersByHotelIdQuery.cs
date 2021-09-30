@@ -9,11 +9,11 @@
     using MediatR;
     using Microsoft.EntityFrameworkCore;
 
-    public record GetOffersByHotelIdQuery(string HotelId) : IRequest<OfferListVm>
+    public record GetOffersByHotelIdQuery(string HotelId) : IRequest<OffersListVm>
     {
     }
 
-    public class GetOffersByHotelIdHandler : IRequestHandler<GetOffersByHotelIdQuery, OfferListVm>
+    public class GetOffersByHotelIdHandler : IRequestHandler<GetOffersByHotelIdQuery, OffersListVm>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
@@ -24,14 +24,14 @@
             _mapper = mapper;
         }
 
-        public async Task<OfferListVm> Handle(GetOffersByHotelIdQuery request, CancellationToken cancellationToken)
+        public async Task<OffersListVm> Handle(GetOffersByHotelIdQuery request, CancellationToken cancellationToken)
         {
             var offers = await _context.Offers.Where(x => x.HotelId == request.HotelId)
                  .ProjectTo<OfferDto>(_mapper.ConfigurationProvider)
                  .OrderByDescending(x => x.PricePerNight)
                  .ToListAsync(cancellationToken);
 
-            var vm = new OfferListVm
+            var vm = new OffersListVm
             {
                 Offers = offers,
             };
