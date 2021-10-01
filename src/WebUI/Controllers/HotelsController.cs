@@ -1,5 +1,6 @@
 ﻿using Accommodation.Application.Accommodations.Commands;
 using Accommodation.Application.Accommodations.Commands.CreateHotel;
+using Accommodation.Application.Hotels.Queries.GetHotelById;
 using Accommodation.Application.Hotels.Queries.GetHotelsList;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,11 +13,9 @@ using System.Threading.Tasks;
 
 namespace Accommodation.WebUI.Controllers
 {
-    [Authorize]
     public class HotelsController : ApiControllerBase
     {
         [HttpGet]
-        [AllowAnonymous]
         public async Task<ActionResult<HotelsListVm>> GetAll()
         {
             var vm = await Mediator.Send(new GetHotelsListQuery());
@@ -24,14 +23,15 @@ namespace Accommodation.WebUI.Controllers
             return base.Ok(vm);
         }
 
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{hotelId}")]
+        public async Task<ActionResult<HotelVm>> Get([FromQuery] string hotelId)
         {
-            return "value";
+            var vm = await Mediator.Send(new GetHotelByIdQuery(hotelId));
+
+            return base.Ok(vm);
         }
 
         [HttpPost]
-        [AllowAnonymous]
         public async Task<ActionResult<int>> Post([FromBody] CreateHotelCommand command)
         {
             var hotelId = await Mediator.Send(command);

@@ -57,7 +57,7 @@
         }
       }
     },
-    "/api/Hotels/{id}": {
+    "/api/Hotels/{hotelId}": {
       "get": {
         "tags": [
           "Hotels"
@@ -65,14 +65,22 @@
         "operationId": "Hotels_Get",
         "parameters": [
           {
-            "name": "id",
+            "name": "hotelId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "hotelId",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string"
             },
-            "x-position": 1
+            "x-position": 2
           }
         ],
         "responses": {
@@ -81,18 +89,15 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/HotelVm"
                 }
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
-      },
+        }
+      }
+    },
+    "/api/Hotels/{id}": {
       "put": {
         "tags": [
           "Hotels"
@@ -126,12 +131,7 @@
           "200": {
             "description": ""
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       },
       "delete": {
         "tags": [
@@ -154,12 +154,7 @@
           "200": {
             "description": ""
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       }
     }
   },
@@ -205,6 +200,153 @@
           "city": {
             "type": "string",
             "nullable": true
+          }
+        }
+      },
+      "HotelVm": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "country": {
+            "type": "string",
+            "nullable": true
+          },
+          "latitude": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "longitude": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "rating": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "facilities": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "reviews": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ReviewsListVm"
+              }
+            ]
+          },
+          "offers": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/OffersListVm"
+              }
+            ]
+          }
+        }
+      },
+      "ReviewsListVm": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "reviews": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ReviewDto"
+            }
+          }
+        }
+      },
+      "ReviewDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "guestName": {
+            "type": "string",
+            "nullable": true
+          },
+          "content": {
+            "type": "string",
+            "nullable": true
+          },
+          "rating": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "OffersListVm": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "offers": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/OfferDto"
+            }
+          }
+        }
+      },
+      "OfferDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "roomId": {
+            "type": "string",
+            "nullable": true
+          },
+          "fromDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "toDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "pricePerNight": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "maxPeople": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },

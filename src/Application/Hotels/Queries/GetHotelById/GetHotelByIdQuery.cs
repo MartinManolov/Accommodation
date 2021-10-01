@@ -40,7 +40,7 @@
                     PhoneNumber = x.PhoneNumber,
                     Email = x.Email,
                     Facilities = x.Facilities.Select(x => x.Name).ToList(),
-                    Rating = x.Reviews.Sum(r => r.Rating) / x.Reviews.Count,
+                    Rating = x.Reviews.Count == 0 ? 0 : x.Reviews.Sum(x => x.Rating) / x.Reviews.Count,
                 }).FirstOrDefault();
 
             if (hotel == null)

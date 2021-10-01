@@ -17,7 +17,7 @@ export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 export interface IHotelsClient {
     getAll(): Observable<HotelsListVm>;
     post(command: CreateHotelCommand): Observable<number>;
-    get(id: number): Observable<string>;
+    get(hotelIdQuery: string | null | undefined, hotelIdPath: string): Observable<HotelVm>;
     put(id: number, value: string): Observable<void>;
     delete(id: number): Observable<void>;
 }
@@ -135,11 +135,13 @@ export class HotelsClient implements IHotelsClient {
         return _observableOf<number>(<any>null);
     }
 
-    get(id: number): Observable<string> {
-        let url_ = this.baseUrl + "/api/Hotels/{id}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+    get(hotelIdQuery: string | null | undefined, hotelIdPath: string): Observable<HotelVm> {
+        let url_ = this.baseUrl + "/api/Hotels/{hotelId}?";
+        if (hotelIdPath === undefined || hotelIdPath === null)
+            throw new Error("The parameter 'hotelIdPath' must be defined.");
+        url_ = url_.replace("{hotelId}", encodeURIComponent("" + hotelIdPath));
+        if (hotelIdQuery !== undefined && hotelIdQuery !== null)
+            url_ += "hotelId=" + encodeURIComponent("" + hotelIdQuery) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -157,14 +159,14 @@ export class HotelsClient implements IHotelsClient {
                 try {
                     return this.processGet(<any>response_);
                 } catch (e) {
-                    return <Observable<string>><any>_observableThrow(e);
+                    return <Observable<HotelVm>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<string>><any>_observableThrow(response_);
+                return <Observable<HotelVm>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGet(response: HttpResponseBase): Observable<string> {
+    protected processGet(response: HttpResponseBase): Observable<HotelVm> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -175,7 +177,7 @@ export class HotelsClient implements IHotelsClient {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            result200 = HotelVm.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -183,7 +185,7 @@ export class HotelsClient implements IHotelsClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<string>(<any>null);
+        return _observableOf<HotelVm>(<any>null);
     }
 
     put(id: number, value: string): Observable<void> {
@@ -383,6 +385,290 @@ export interface IHotelInListDto {
     rating?: number;
     country?: string | undefined;
     city?: string | undefined;
+}
+
+export class HotelVm implements IHotelVm {
+    id?: string | undefined;
+    name?: string | undefined;
+    country?: string | undefined;
+    latitude?: number;
+    longitude?: number;
+    city?: string | undefined;
+    description?: string | undefined;
+    phoneNumber?: string | undefined;
+    email?: string | undefined;
+    rating?: number;
+    facilities?: string[] | undefined;
+    reviews?: ReviewsListVm | undefined;
+    offers?: OffersListVm | undefined;
+
+    constructor(data?: IHotelVm) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.country = _data["country"];
+            this.latitude = _data["latitude"];
+            this.longitude = _data["longitude"];
+            this.city = _data["city"];
+            this.description = _data["description"];
+            this.phoneNumber = _data["phoneNumber"];
+            this.email = _data["email"];
+            this.rating = _data["rating"];
+            if (Array.isArray(_data["facilities"])) {
+                this.facilities = [] as any;
+                for (let item of _data["facilities"])
+                    this.facilities!.push(item);
+            }
+            this.reviews = _data["reviews"] ? ReviewsListVm.fromJS(_data["reviews"]) : <any>undefined;
+            this.offers = _data["offers"] ? OffersListVm.fromJS(_data["offers"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): HotelVm {
+        data = typeof data === 'object' ? data : {};
+        let result = new HotelVm();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["country"] = this.country;
+        data["latitude"] = this.latitude;
+        data["longitude"] = this.longitude;
+        data["city"] = this.city;
+        data["description"] = this.description;
+        data["phoneNumber"] = this.phoneNumber;
+        data["email"] = this.email;
+        data["rating"] = this.rating;
+        if (Array.isArray(this.facilities)) {
+            data["facilities"] = [];
+            for (let item of this.facilities)
+                data["facilities"].push(item);
+        }
+        data["reviews"] = this.reviews ? this.reviews.toJSON() : <any>undefined;
+        data["offers"] = this.offers ? this.offers.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IHotelVm {
+    id?: string | undefined;
+    name?: string | undefined;
+    country?: string | undefined;
+    latitude?: number;
+    longitude?: number;
+    city?: string | undefined;
+    description?: string | undefined;
+    phoneNumber?: string | undefined;
+    email?: string | undefined;
+    rating?: number;
+    facilities?: string[] | undefined;
+    reviews?: ReviewsListVm | undefined;
+    offers?: OffersListVm | undefined;
+}
+
+export class ReviewsListVm implements IReviewsListVm {
+    reviews?: ReviewDto[] | undefined;
+
+    constructor(data?: IReviewsListVm) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["reviews"])) {
+                this.reviews = [] as any;
+                for (let item of _data["reviews"])
+                    this.reviews!.push(ReviewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ReviewsListVm {
+        data = typeof data === 'object' ? data : {};
+        let result = new ReviewsListVm();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.reviews)) {
+            data["reviews"] = [];
+            for (let item of this.reviews)
+                data["reviews"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IReviewsListVm {
+    reviews?: ReviewDto[] | undefined;
+}
+
+export class ReviewDto implements IReviewDto {
+    guestName?: string | undefined;
+    content?: string | undefined;
+    rating?: number;
+    date?: Date;
+
+    constructor(data?: IReviewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.guestName = _data["guestName"];
+            this.content = _data["content"];
+            this.rating = _data["rating"];
+            this.date = _data["date"] ? new Date(_data["date"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): ReviewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ReviewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["guestName"] = this.guestName;
+        data["content"] = this.content;
+        data["rating"] = this.rating;
+        data["date"] = this.date ? this.date.toISOString() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IReviewDto {
+    guestName?: string | undefined;
+    content?: string | undefined;
+    rating?: number;
+    date?: Date;
+}
+
+export class OffersListVm implements IOffersListVm {
+    offers?: OfferDto[] | undefined;
+
+    constructor(data?: IOffersListVm) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["offers"])) {
+                this.offers = [] as any;
+                for (let item of _data["offers"])
+                    this.offers!.push(OfferDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): OffersListVm {
+        data = typeof data === 'object' ? data : {};
+        let result = new OffersListVm();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.offers)) {
+            data["offers"] = [];
+            for (let item of this.offers)
+                data["offers"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IOffersListVm {
+    offers?: OfferDto[] | undefined;
+}
+
+export class OfferDto implements IOfferDto {
+    id?: string | undefined;
+    roomId?: string | undefined;
+    fromDate?: Date;
+    toDate?: Date;
+    pricePerNight?: number;
+    maxPeople?: number;
+
+    constructor(data?: IOfferDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.roomId = _data["roomId"];
+            this.fromDate = _data["fromDate"] ? new Date(_data["fromDate"].toString()) : <any>undefined;
+            this.toDate = _data["toDate"] ? new Date(_data["toDate"].toString()) : <any>undefined;
+            this.pricePerNight = _data["pricePerNight"];
+            this.maxPeople = _data["maxPeople"];
+        }
+    }
+
+    static fromJS(data: any): OfferDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new OfferDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["roomId"] = this.roomId;
+        data["fromDate"] = this.fromDate ? this.fromDate.toISOString() : <any>undefined;
+        data["toDate"] = this.toDate ? this.toDate.toISOString() : <any>undefined;
+        data["pricePerNight"] = this.pricePerNight;
+        data["maxPeople"] = this.maxPeople;
+        return data; 
+    }
+}
+
+export interface IOfferDto {
+    id?: string | undefined;
+    roomId?: string | undefined;
+    fromDate?: Date;
+    toDate?: Date;
+    pricePerNight?: number;
+    maxPeople?: number;
 }
 
 export class CreateHotelCommand implements ICreateHotelCommand {

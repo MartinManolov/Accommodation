@@ -1,5 +1,6 @@
 ﻿namespace Accommodation.Application.Reviews.Queries.GetReviewsByHotelId
 {
+    using AutoMapper;
     using System;
 
     public class ReviewDto
