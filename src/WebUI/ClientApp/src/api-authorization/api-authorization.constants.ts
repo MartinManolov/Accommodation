@@ -1,4 +1,4 @@
-export const ApplicationName = 'Project2.WebUI';
+export const ApplicationName = 'Accommodation.WebUI';
 
 export const ReturnUrlType = 'returnUrl';
 

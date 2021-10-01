@@ -39,8 +39,8 @@
                     Description = x.Description,
                     PhoneNumber = x.PhoneNumber,
                     Email = x.Email,
-                    Rating = x.Rating,
                     Facilities = x.Facilities.Select(x => x.Name).ToList(),
+                    Rating = x.Reviews.Sum(r => r.Rating) / x.Reviews.Count,
                 }).FirstOrDefault();
 
             if (hotel == null)

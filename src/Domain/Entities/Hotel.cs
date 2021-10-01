@@ -44,13 +44,5 @@
         public ICollection<Review> Reviews { get; private set; }
 
         public ICollection<Room> Rooms { get; private set; }
-
-        public int Rating
-        {
-            get
-            {
-                return this.Reviews.Sum(x => x.Rating) / this.Reviews.Count;
-            }
-        }
     }
 }

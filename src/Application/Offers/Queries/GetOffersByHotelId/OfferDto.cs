@@ -3,6 +3,7 @@
     using System;
     using Accommodation.Application.Common.Mappings;
     using Accommodation.Domain.Entities;
+    using AutoMapper;
 
     public class OfferDto : IMapFrom<Offer>
     {
@@ -17,5 +18,10 @@
         public decimal PricePerNight { get; set; }
 
         public int MaxPeople { get; set; }
+
+        public void Mapping(Profile profile)
+        {
+            profile.CreateMap<Offer, OfferDto>();
+        }
     }
 }

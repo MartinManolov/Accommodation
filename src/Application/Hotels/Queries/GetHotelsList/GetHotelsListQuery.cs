@@ -1,5 +1,6 @@
 ﻿namespace Accommodation.Application.Hotels.Queries.GetHotelsList
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
@@ -26,17 +27,33 @@
 
         public async Task<HotelsListVm> Handle(GetHotelsListQuery request, CancellationToken cancellationToken)
         {
-            var hotels = await _context.Hotels
-                .ProjectTo<HotelInListDto>(_mapper.ConfigurationProvider)
-                .OrderByDescending(x => x.Rating)
+            try
+            {
+                var hotels = await _context.Hotels
+                .Select(x => new HotelInListDto
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    City = x.City,
+                    Country = x.Country,
+                    PhoneNumber = x.PhoneNumber,
+                    Rating = x.Reviews.Count == 0 ? 0 : x.Reviews.Sum(x => x.Rating) / x.Reviews.Count,
+                })
                 .ToListAsync(cancellationToken);
 
-            var vm = new HotelsListVm
-            {
-                Hotels = hotels,
-            };
+                var vm = new HotelsListVm
+                {
+                    Hotels = hotels,
+                };
 
-            return vm;
+                return vm;
+            }
+            catch (System.Exception)
+            {
+
+                throw new System.Exception();
+            }
+
         }
     }
 }

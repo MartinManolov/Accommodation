@@ -2,8 +2,9 @@
 {
     using Accommodation.Application.Common.Mappings;
     using Accommodation.Domain.Entities;
+    using AutoMapper;
 
-    public class HotelInListDto : IMapFrom<Hotel>
+    public class HotelInListDto
     {
         public string Id { get; set; }
 
@@ -11,7 +12,7 @@
 
         public string PhoneNumber { get; set; }
 
-        public int Rating { get; set; }
+        public double Rating { get; set; }
 
         public string Country { get; set; }
 
