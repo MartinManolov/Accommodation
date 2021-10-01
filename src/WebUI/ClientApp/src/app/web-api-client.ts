@@ -334,6 +334,8 @@ export class HotelInListDto implements IHotelInListDto {
     name?: string | undefined;
     phoneNumber?: string | undefined;
     rating?: number;
+    country?: string | undefined;
+    city?: string | undefined;
 
     constructor(data?: IHotelInListDto) {
         if (data) {
@@ -350,6 +352,8 @@ export class HotelInListDto implements IHotelInListDto {
             this.name = _data["name"];
             this.phoneNumber = _data["phoneNumber"];
             this.rating = _data["rating"];
+            this.country = _data["country"];
+            this.city = _data["city"];
         }
     }
 
@@ -366,6 +370,8 @@ export class HotelInListDto implements IHotelInListDto {
         data["name"] = this.name;
         data["phoneNumber"] = this.phoneNumber;
         data["rating"] = this.rating;
+        data["country"] = this.country;
+        data["city"] = this.city;
         return data; 
     }
 }
@@ -375,6 +381,8 @@ export interface IHotelInListDto {
     name?: string | undefined;
     phoneNumber?: string | undefined;
     rating?: number;
+    country?: string | undefined;
+    city?: string | undefined;
 }
 
 export class CreateHotelCommand implements ICreateHotelCommand {
@@ -383,6 +391,8 @@ export class CreateHotelCommand implements ICreateHotelCommand {
     facilities?: CreateFacilityCommand[] | undefined;
     phoneNumber?: string | undefined;
     email?: string | undefined;
+    cuntry?: string | undefined;
+    city?: string | undefined;
     locationLatitude?: number;
     locationLongitude?: number;
 
@@ -406,6 +416,8 @@ export class CreateHotelCommand implements ICreateHotelCommand {
             }
             this.phoneNumber = _data["phoneNumber"];
             this.email = _data["email"];
+            this.cuntry = _data["cuntry"];
+            this.city = _data["city"];
             this.locationLatitude = _data["locationLatitude"];
             this.locationLongitude = _data["locationLongitude"];
         }
@@ -429,6 +441,8 @@ export class CreateHotelCommand implements ICreateHotelCommand {
         }
         data["phoneNumber"] = this.phoneNumber;
         data["email"] = this.email;
+        data["cuntry"] = this.cuntry;
+        data["city"] = this.city;
         data["locationLatitude"] = this.locationLatitude;
         data["locationLongitude"] = this.locationLongitude;
         return data; 
@@ -441,6 +455,8 @@ export interface ICreateHotelCommand {
     facilities?: CreateFacilityCommand[] | undefined;
     phoneNumber?: string | undefined;
     email?: string | undefined;
+    cuntry?: string | undefined;
+    city?: string | undefined;
     locationLatitude?: number;
     locationLongitude?: number;
 }
