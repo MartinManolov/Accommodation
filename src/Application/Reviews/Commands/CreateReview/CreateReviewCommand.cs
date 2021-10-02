@@ -10,11 +10,11 @@
     {
     }
 
-    public class CreateReviewHandler : IRequestHandler<CreateReviewCommand, string>
+    public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, string>
     {
         private readonly IApplicationDbContext _context;
 
-        public CreateReviewHandler(IApplicationDbContext context)
+        public CreateReviewCommandHandler(IApplicationDbContext context)
         {
             _context = context;
         }

@@ -1,8 +1,8 @@
 ﻿namespace Accommodation.Domain.Entities
 {
-    using Accommodation.Domain.Common;
     using System;
     using System.Collections.Generic;
+    using Accommodation.Domain.Common;
 
     public class Room : AuditableEntity
     {
@@ -29,6 +29,6 @@
 
         public ICollection<Facility> Facilities { get; set; }
 
-        public ICollection<Offer> Offers { get; private set; }
+        public ICollection<Offer> Offers { get; set; }
     }
 }

@@ -13,12 +13,12 @@
     {
     }
 
-    public class GetOffersByHotelIdHandler : IRequestHandler<GetOffersByHotelIdQuery, OffersListVm>
+    public class GetOffersByHotelIdQueyHandler : IRequestHandler<GetOffersByHotelIdQuery, OffersListVm>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
 
-        public GetOffersByHotelIdHandler(IApplicationDbContext context, IMapper mapper)
+        public GetOffersByHotelIdQueyHandler(IApplicationDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
@@ -28,7 +28,7 @@
         {
             var offers = await _context.Offers.Where(x => x.HotelId == request.HotelId)
                  .ProjectTo<OfferDto>(_mapper.ConfigurationProvider)
-                 .OrderByDescending(x => x.PricePerNight)
+                 .OrderBy(x => x.PricePerNight)
                  .ToListAsync(cancellationToken);
 
             var vm = new OffersListVm

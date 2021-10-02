@@ -1,5 +1,6 @@
 ﻿namespace Accommodation.Application.Facilities.Commands.CreateFacility
 {
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using Accommodation.Application.Common.Interfaces;
@@ -21,10 +22,15 @@
 
         public async Task<Facility> Handle(CreateFacilityCommand request, CancellationToken cancellationToken)
         {
-            var facility = new Facility(request.Name);
+            var facility = _context.Facilities.FirstOrDefault(x => x.Name == request.Name);
 
-            await _context.Facilities.AddAsync(facility);
-            await _context.SaveChangesAsync(cancellationToken);
+            if (facility == null)
+            {
+                facility = new Facility(request.Name);
+
+                await _context.Facilities.AddAsync(facility);
+                await _context.SaveChangesAsync(cancellationToken);
+            }
 
             return facility;
         }

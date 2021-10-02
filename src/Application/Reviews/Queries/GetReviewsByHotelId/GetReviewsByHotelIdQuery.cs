@@ -10,11 +10,11 @@
     {
     }
 
-    public class GetReviewsByHotelIdHandler : IRequestHandler<GetReviewsByHotelIdQuery, ReviewsListVm>
+    public class GetReviewsByHotelIdQueryHandler : IRequestHandler<GetReviewsByHotelIdQuery, ReviewsListVm>
     {
         private readonly IApplicationDbContext _context;
 
-        public GetReviewsByHotelIdHandler(IApplicationDbContext context)
+        public GetReviewsByHotelIdQueryHandler(IApplicationDbContext context)
         {
             _context = context;
         }

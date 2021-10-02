@@ -22,12 +22,12 @@
     {
     }
 
-    public class Handler : IRequestHandler<CreateHotelCommand, string>
+    public class CreateHotelCommandHandler : IRequestHandler<CreateHotelCommand, string>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMediator _mediator;
 
-        public Handler(IApplicationDbContext context, IMediator mediator)
+        public CreateHotelCommandHandler(IApplicationDbContext context, IMediator mediator)
         {
             _context = context;
             _mediator = mediator;

@@ -13,12 +13,12 @@
     {
     }
 
-    public class GetHotelByIdHandler : IRequestHandler<GetHotelByIdQuery, HotelVm>
+    public class GetHotelByIdQueryHandler : IRequestHandler<GetHotelByIdQuery, HotelVm>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMediator _mediator;
 
-        public GetHotelByIdHandler(IApplicationDbContext context, IMediator mediator)
+        public GetHotelByIdQueryHandler(IApplicationDbContext context, IMediator mediator)
         {
             _context = context;
             _mediator = mediator;
@@ -48,8 +48,8 @@
                 throw new NotFoundException($"Hotel with id \"{request.HotelId}\" is not found !");
             }
 
-            hotel.Reviews = await this._mediator.Send(new GetReviewsByHotelIdQuery(request.HotelId));
-            hotel.Offers = await this._mediator.Send(new GetOffersByHotelIdQuery(request.HotelId));
+            hotel.Reviews = await _mediator.Send(new GetReviewsByHotelIdQuery(request.HotelId));
+            hotel.Offers = await _mediator.Send(new GetOffersByHotelIdQuery(request.HotelId));
 
             return hotel;
         }

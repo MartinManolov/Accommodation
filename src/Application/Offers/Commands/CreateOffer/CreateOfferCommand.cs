@@ -17,11 +17,11 @@
     {
     }
 
-    public class CreateOfferHandler : IRequestHandler<CreateOfferCommand, string>
+    public class CreateOfferCommandHandler : IRequestHandler<CreateOfferCommand, string>
     {
         private readonly IApplicationDbContext _context;
 
-        public CreateOfferHandler(IApplicationDbContext context)
+        public CreateOfferCommandHandler(IApplicationDbContext context)
         {
             _context = context;
         }
