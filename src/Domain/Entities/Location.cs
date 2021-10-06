@@ -17,7 +17,7 @@
 
         public decimal Longitude { get; set; }
 
-        public void ChangeLocation(decimal latitude, decimal longitude)
+        private void ChangeLocation(decimal latitude, decimal longitude)
         {
             if (latitude < -90 || latitude > 90)
             {

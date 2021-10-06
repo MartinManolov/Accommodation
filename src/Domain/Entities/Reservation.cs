@@ -25,5 +25,9 @@
         public DateTime FromDate { get; set; }
 
         public DateTime ToDate { get; set; }
+
+        public string OfferId { get; set; }
+
+        public Offer Offer { get; set; }
     }
 }

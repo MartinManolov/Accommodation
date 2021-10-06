@@ -41,8 +41,8 @@
 
         public ICollection<Facility> Facilities { get; set; }
 
-        public ICollection<Review> Reviews { get; private set; }
+        public ICollection<Review> Reviews { get; set; }
 
-        public ICollection<Room> Rooms { get; private set; }
+        public ICollection<Room> Rooms { get; set; }
     }
 }
