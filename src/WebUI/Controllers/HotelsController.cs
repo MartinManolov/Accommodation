@@ -1,5 +1,6 @@
 ﻿using Accommodation.Application.Accommodations.Commands;
 using Accommodation.Application.Accommodations.Commands.CreateHotel;
+using Accommodation.Application.Hotels.Commands.DeleteHotel;
 using Accommodation.Application.Hotels.Queries.GetHotelById;
 using Accommodation.Application.Hotels.Queries.GetHotelsByCity;
 using Accommodation.Application.Hotels.Queries.GetHotelsList;
@@ -63,8 +64,11 @@ namespace Accommodation.WebUI.Controllers
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(string id)
         {
+            await Mediator.Send(new DeleteHotelCommand(id));
+
+            return NoContent();
         }
     }
 }
