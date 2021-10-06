@@ -10,25 +10,23 @@
     using MediatR;
     using Microsoft.EntityFrameworkCore;
 
-    public class GetHotelsListQuery : IRequest<HotelsListVm>
+    public class GetAllHotelsQuery : IRequest<HotelsListVm>
     {
     }
 
-    public class GetHotelsListQueryHandler : IRequestHandler<GetHotelsListQuery, HotelsListVm>
+    public class GetAllHotelsQueryHandler : IRequestHandler<GetAllHotelsQuery, HotelsListVm>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
 
-        public GetHotelsListQueryHandler(IApplicationDbContext context, IMapper mapper)
+        public GetAllHotelsQueryHandler(IApplicationDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
         }
 
-        public async Task<HotelsListVm> Handle(GetHotelsListQuery request, CancellationToken cancellationToken)
+        public async Task<HotelsListVm> Handle(GetAllHotelsQuery request, CancellationToken cancellationToken)
         {
-            try
-            {
                 var hotels = await _context.Hotels
                 .Select(x => new HotelInListDto
                 {
@@ -47,12 +45,6 @@
                 };
 
                 return vm;
-            }
-            catch (System.Exception)
-            {
-
-                throw new System.Exception();
-            }
 
         }
     }

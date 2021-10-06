@@ -1,6 +1,7 @@
 ﻿using Accommodation.Application.Accommodations.Commands;
 using Accommodation.Application.Accommodations.Commands.CreateHotel;
 using Accommodation.Application.Hotels.Queries.GetHotelById;
+using Accommodation.Application.Hotels.Queries.GetHotelsByCity;
 using Accommodation.Application.Hotels.Queries.GetHotelsList;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,15 +19,33 @@ namespace Accommodation.WebUI.Controllers
         [HttpGet]
         public async Task<ActionResult<HotelsListVm>> GetAll()
         {
-            var vm = await Mediator.Send(new GetHotelsListQuery());
+            var vm = await Mediator.Send(new GetAllHotelsQuery());
 
             return base.Ok(vm);
         }
 
         [HttpGet("{hotelId}")]
-        public async Task<ActionResult<HotelVm>> Get([FromQuery] string hotelId)
+        public async Task<ActionResult<HotelVm>> Get(string hotelId)
         {
             var vm = await Mediator.Send(new GetHotelByIdQuery(hotelId));
+
+            return base.Ok(vm);
+        }
+
+        [Route("[action]/{city}")]
+        [HttpGet]
+        public async Task<ActionResult<HotelVm>> GetByCity(string city)
+        {
+            var vm = await Mediator.Send(new GetHotelsByCityQuery(city));
+
+            return base.Ok(vm);
+        }
+
+        [Route("[action]/{country}")]
+        [HttpGet]
+        public async Task<ActionResult<HotelVm>> GetByCountry(string country)
+        {
+            var vm = await Mediator.Send(new GetHotelsByCountryQuery(country));
 
             return base.Ok(vm);
         }
