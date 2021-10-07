@@ -16,7 +16,7 @@
         </div>
         <div class="card-footer">
             <small>phone: {{h.phoneNumber}}</small>
-            <button class="btn btn-info float-right btn-sm">Details</button>
+            <button [routerLink]="['/hotels', h.id]" class="btn btn-info float-right btn-sm">Details</button>
         </div>
     </div>
 </div>

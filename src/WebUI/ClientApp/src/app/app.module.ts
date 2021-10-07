@@ -5,15 +5,17 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { AppComponent } from './app.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
+
 import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.module';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { AppRoutingModule } from './app-routing.module';
-import { TokenComponent } from './token/token.component';
-import { HotelModule } from './features/hotel/hotel.module';
+import { HotelModule } from './hotel/hotels.module';
+import { NavMenuComponent } from './shared/nav-menu/nav-menu.component';
+import { HomeComponent } from './shared/home/home.component';
+import { TokenComponent } from './shared/token/token.component';
+
 
 @NgModule({
   declarations: [
