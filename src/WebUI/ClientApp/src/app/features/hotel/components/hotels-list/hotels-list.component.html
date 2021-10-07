@@ -1,0 +1,25 @@
+<div class="container">
+  {{hotels | json}}
+    <div class="row" >
+<div class="col-sm" *ngFor="let h of hotels">
+    <div class="card card-inverse card-info">
+        <img class="card-img-top" src="https://picsum.photos/200/150/?random">
+        <div class="card-block">
+           
+            <h4 class="card-title mt-3">{{h.name}}</h4>
+            <div class="meta card-text">
+                <a>{{h.city}} / {{h.country}}</a>
+            </div>
+            <div class="card-text">
+                Rating: {{h.rating}}
+            </div>
+        </div>
+        <div class="card-footer">
+            <small>phone: {{h.phoneNumber}}</small>
+            <button class="btn btn-info float-right btn-sm">Details</button>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+

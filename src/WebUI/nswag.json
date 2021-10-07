@@ -56,10 +56,10 @@
   },
   "codeGenerators": {
     "openApiToTypeScriptClient": {
-      "className": "{controller}Client",
+      "className": "{controller}Service",
       "moduleName": "",
       "namespace": "",
-      "typeScriptVersion": 2.7,
+      "typeScriptVersion": 4.2,
       "template": "Angular",
       "promiseType": "Promise",
       "httpClass": "HttpClient",

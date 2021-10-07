@@ -14,7 +14,7 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angula
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
-export interface IHotelsClient {
+export interface IHotelsService {
     getAll(): Observable<HotelsListVm>;
     post(command: CreateHotelCommand): Observable<number>;
     get(hotelId: string | null): Observable<HotelVm>;
@@ -27,7 +27,7 @@ export interface IHotelsClient {
 @Injectable({
     providedIn: 'root'
 })
-export class HotelsClient implements IHotelsClient {
+export class HotelsService implements IHotelsService {
     private http: HttpClient;
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -391,7 +391,7 @@ export class HotelsClient implements IHotelsClient {
     }
 }
 
-export interface IOffersClient {
+export interface IOffersService {
     getAll(): Observable<string[]>;
     post(command: CreateOfferCommand): Observable<string>;
     get(hotelIdQuery: string | null | undefined, hotelIdPath: string): Observable<OffersListVm>;
@@ -402,7 +402,7 @@ export interface IOffersClient {
 @Injectable({
     providedIn: 'root'
 })
-export class OffersClient implements IOffersClient {
+export class OffersService implements IOffersService {
     private http: HttpClient;
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -671,7 +671,7 @@ export class OffersClient implements IOffersClient {
     }
 }
 
-export interface IRoomsClient {
+export interface IRoomsService {
     getAll(): Observable<string[]>;
     post(command: CreateRoomCommand): Observable<string>;
     get(hotelId: string | null): Observable<RoomsVm>;
@@ -682,7 +682,7 @@ export interface IRoomsClient {
 @Injectable({
     providedIn: 'root'
 })
-export class RoomsClient implements IRoomsClient {
+export class RoomsService implements IRoomsService {
     private http: HttpClient;
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;

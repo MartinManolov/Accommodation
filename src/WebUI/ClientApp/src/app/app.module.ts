@@ -13,6 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { AppRoutingModule } from './app-routing.module';
 import { TokenComponent } from './token/token.component';
+import { HotelModule } from './features/hotel/hotel.module';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { TokenComponent } from './token/token.component';
     ApiAuthorizationModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    HotelModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
