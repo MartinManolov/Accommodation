@@ -1,4 +1,4 @@
-﻿namespace Accommodation.Application.Offers.Queries.GetOffersByHotelId
+﻿namespace Accommodation.Application.Offers.Queries.GetActiveOffersByHotelId
 {
     using System.Collections.Generic;
 

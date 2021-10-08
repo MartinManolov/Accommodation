@@ -1,5 +1,5 @@
 ﻿using Accommodation.Application.Offers.Commands.CreateOffer;
-using Accommodation.Application.Offers.Queries.GetOffersByHotelId;
+using Accommodation.Application.Offers.Queries.GetActiveOffersByHotelId;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -23,7 +23,7 @@ namespace Accommodation.WebUI.Controllers
         [HttpGet("{hotelId}")]
         public async Task<ActionResult<OffersListVm>> Get([FromQuery] string hotelId)
         {
-            var vm = await this.Mediator.Send(new GetOffersByHotelIdQuery(hotelId));
+            var vm = await this.Mediator.Send(new GetActiveOffersByHotelIdQuery(hotelId));
 
             return this.Ok(vm);
         }

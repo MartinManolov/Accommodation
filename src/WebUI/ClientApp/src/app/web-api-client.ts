@@ -1280,10 +1280,13 @@ export interface IOffersListVm {
 export class OfferDto implements IOfferDto {
     id?: string | undefined;
     roomId?: string | undefined;
-    fromDate?: Date;
-    toDate?: Date;
+    checkInDate?: Date;
+    checkOutDate?: Date;
+    nights?: number;
     pricePerNight?: number;
+    wholePrice?: number;
     maxPeople?: number;
+    remainingReservation?: number;
 
     constructor(data?: IOfferDto) {
         if (data) {
@@ -1298,10 +1301,13 @@ export class OfferDto implements IOfferDto {
         if (_data) {
             this.id = _data["id"];
             this.roomId = _data["roomId"];
-            this.fromDate = _data["fromDate"] ? new Date(_data["fromDate"].toString()) : <any>undefined;
-            this.toDate = _data["toDate"] ? new Date(_data["toDate"].toString()) : <any>undefined;
+            this.checkInDate = _data["checkInDate"] ? new Date(_data["checkInDate"].toString()) : <any>undefined;
+            this.checkOutDate = _data["checkOutDate"] ? new Date(_data["checkOutDate"].toString()) : <any>undefined;
+            this.nights = _data["nights"];
             this.pricePerNight = _data["pricePerNight"];
+            this.wholePrice = _data["wholePrice"];
             this.maxPeople = _data["maxPeople"];
+            this.remainingReservation = _data["remainingReservation"];
         }
     }
 
@@ -1316,10 +1322,13 @@ export class OfferDto implements IOfferDto {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["roomId"] = this.roomId;
-        data["fromDate"] = this.fromDate ? this.fromDate.toISOString() : <any>undefined;
-        data["toDate"] = this.toDate ? this.toDate.toISOString() : <any>undefined;
+        data["checkInDate"] = this.checkInDate ? this.checkInDate.toISOString() : <any>undefined;
+        data["checkOutDate"] = this.checkOutDate ? this.checkOutDate.toISOString() : <any>undefined;
+        data["nights"] = this.nights;
         data["pricePerNight"] = this.pricePerNight;
+        data["wholePrice"] = this.wholePrice;
         data["maxPeople"] = this.maxPeople;
+        data["remainingReservation"] = this.remainingReservation;
         return data; 
     }
 }
@@ -1327,10 +1336,13 @@ export class OfferDto implements IOfferDto {
 export interface IOfferDto {
     id?: string | undefined;
     roomId?: string | undefined;
-    fromDate?: Date;
-    toDate?: Date;
+    checkInDate?: Date;
+    checkOutDate?: Date;
+    nights?: number;
     pricePerNight?: number;
+    wholePrice?: number;
     maxPeople?: number;
+    remainingReservation?: number;
 }
 
 export class CreateHotelCommand implements ICreateHotelCommand {
@@ -1448,8 +1460,9 @@ export interface ICreateFacilityCommand {
 export class CreateOfferCommand implements ICreateOfferCommand {
     hotelId?: string | undefined;
     roomId?: string | undefined;
-    fromDate?: Date;
-    toDate?: Date;
+    checkInDate?: Date;
+    checkOutDate?: Date;
+    maxReservations?: number;
     pricePerNight?: number;
     maxPeople?: number;
 
@@ -1466,8 +1479,9 @@ export class CreateOfferCommand implements ICreateOfferCommand {
         if (_data) {
             this.hotelId = _data["hotelId"];
             this.roomId = _data["roomId"];
-            this.fromDate = _data["fromDate"] ? new Date(_data["fromDate"].toString()) : <any>undefined;
-            this.toDate = _data["toDate"] ? new Date(_data["toDate"].toString()) : <any>undefined;
+            this.checkInDate = _data["checkInDate"] ? new Date(_data["checkInDate"].toString()) : <any>undefined;
+            this.checkOutDate = _data["checkOutDate"] ? new Date(_data["checkOutDate"].toString()) : <any>undefined;
+            this.maxReservations = _data["maxReservations"];
             this.pricePerNight = _data["pricePerNight"];
             this.maxPeople = _data["maxPeople"];
         }
@@ -1484,8 +1498,9 @@ export class CreateOfferCommand implements ICreateOfferCommand {
         data = typeof data === 'object' ? data : {};
         data["hotelId"] = this.hotelId;
         data["roomId"] = this.roomId;
-        data["fromDate"] = this.fromDate ? this.fromDate.toISOString() : <any>undefined;
-        data["toDate"] = this.toDate ? this.toDate.toISOString() : <any>undefined;
+        data["checkInDate"] = this.checkInDate ? this.checkInDate.toISOString() : <any>undefined;
+        data["checkOutDate"] = this.checkOutDate ? this.checkOutDate.toISOString() : <any>undefined;
+        data["maxReservations"] = this.maxReservations;
         data["pricePerNight"] = this.pricePerNight;
         data["maxPeople"] = this.maxPeople;
         return data; 
@@ -1495,8 +1510,9 @@ export class CreateOfferCommand implements ICreateOfferCommand {
 export interface ICreateOfferCommand {
     hotelId?: string | undefined;
     roomId?: string | undefined;
-    fromDate?: Date;
-    toDate?: Date;
+    checkInDate?: Date;
+    checkOutDate?: Date;
+    maxReservations?: number;
     pricePerNight?: number;
     maxPeople?: number;
 }

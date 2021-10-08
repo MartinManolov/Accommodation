@@ -22,13 +22,15 @@
 
         public Room Room { get; set; }
 
-        public DateTime FromDate { get; set; }
+        public DateTime CheckInDate { get; set; }
 
-        public DateTime ToDate { get; set; }
+        public DateTime CheckOutDate { get; set; }
 
         public decimal PricePerNight { get; set; }
 
         public int MaxPeople { get; set; }
+
+        public int MaxReservations { get; set; }
 
         public ICollection<Reservation> Reservations { get; set; }
     }

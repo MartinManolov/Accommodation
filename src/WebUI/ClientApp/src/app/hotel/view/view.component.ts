@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
 import { HotelsService, HotelVm } from 'src/app/web-api-client';
 
 @Component({
@@ -8,11 +9,12 @@ import { HotelsService, HotelVm } from 'src/app/web-api-client';
   styleUrls: ['./view.component.scss']
 })
 export class ViewComponent implements OnInit {
-  hotel : HotelVm
+  hotel$ : Observable<HotelVm>
   constructor(private service : HotelsService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    console.log(this.route.snapshot.params['id'])
+    let id = this.route.snapshot.params['id'];
+    this.hotel$ = this.service.get(id)
     
   }
 

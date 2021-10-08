@@ -1,1 +1,48 @@
-<p>view works!</p>
+{{hotel$ |async |json}}
+<div *ngIf="(hotel$ | async) as hotel">
+    
+    <div>
+        <h2>{{hotel.name}}</h2>
+    </div>
+    <div>
+        <p>{{hotel.city}} / {{hotel.country}}</p>
+    </div>
+    <div>
+        <h3>{{hotel.rating}}</h3>
+    </div>
+    <div>
+        <p>{{hotel.description}}</p>
+    </div>
+    <div *ngIf="hotel.facilities.lenght > 0">
+        <h4>Facilities</h4>
+        <ul>
+            <li *ngFor="let facility of hotel.facilities">
+                {{facility}}
+            </li>
+        </ul>
+    </div>
+    <div>
+        <h4>Offers</h4>
+        
+       <div>
+            <div class="row">
+              <div class="col" *ngFor="let offer of hotel.offers.offers">
+                <div class="card mb-4 rounded-3 shadow-sm">
+                  <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">Free</h4>
+                  </div>
+                  <div class="card-body">
+                    <h1 class="card-title pricing-card-title">${{offer.pricePerNight}}<small class="text-muted fw-light">/per night</small></h1>
+                    <ul class="list-unstyled mt-3 mb-4">
+                      <li>from {{offer.fromDate}}</li>
+                      <li>to {{offer.toDate}}</li>
+                      <li>Max people: {{offer.maxPeople}}</li>
+                    </ul>
+                    <button type="button" class="w-100 btn btn-lg btn-outline-primary">To Reservation</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+    </div>
+    
+</div>

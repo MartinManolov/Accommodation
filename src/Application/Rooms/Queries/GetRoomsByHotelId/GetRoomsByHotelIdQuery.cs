@@ -1,5 +1,5 @@
 ﻿using Accommodation.Application.Common.Interfaces;
-using Accommodation.Application.Offers.Queries.GetOffersByHotelId;
+using Accommodation.Application.Offers.Queries.GetActiveOffersByHotelId;
 using AutoMapper;
 using MediatR;
 using System;
@@ -40,12 +40,15 @@ namespace Accommodation.Application.Rooms.Queries.GetRoomsByHotelId
                    Facilities = x.Facilities.Select(f => f.Name).ToList(),
                    Offers = x.Offers.Select(o => new OfferDto
                    {
-                       Id = o.Id,
-                       RoomId = x.Id,
+                       Id = x.Id,
+                       RoomId = o.RoomId,
+                       CheckInDate = o.CheckInDate,
+                       CheckOutDate = o.CheckOutDate,
+                       Nights = (o.CheckOutDate - o.CheckInDate).Days,
+                       RemainingReservation = o.MaxReservations - o.Reservations.Count,
                        MaxPeople = o.MaxPeople,
                        PricePerNight = o.PricePerNight,
-                       FromDate = o.FromDate,
-                       ToDate = o.ToDate,
+                       WholePrice = (o.CheckOutDate - o.CheckInDate).Days * o.PricePerNight,
                    }).ToList(),
                }).ToList();
 

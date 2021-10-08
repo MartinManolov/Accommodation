@@ -694,19 +694,31 @@
             "type": "string",
             "nullable": true
           },
-          "fromDate": {
+          "checkInDate": {
             "type": "string",
             "format": "date-time"
           },
-          "toDate": {
+          "checkOutDate": {
             "type": "string",
             "format": "date-time"
+          },
+          "nights": {
+            "type": "integer",
+            "format": "int32"
           },
           "pricePerNight": {
             "type": "number",
             "format": "decimal"
           },
+          "wholePrice": {
+            "type": "number",
+            "format": "decimal"
+          },
           "maxPeople": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "remainingReservation": {
             "type": "integer",
             "format": "int32"
           }
@@ -779,13 +791,17 @@
             "type": "string",
             "nullable": true
           },
-          "fromDate": {
+          "checkInDate": {
             "type": "string",
             "format": "date-time"
           },
-          "toDate": {
+          "checkOutDate": {
             "type": "string",
             "format": "date-time"
+          },
+          "maxReservations": {
+            "type": "integer",
+            "format": "int32"
           },
           "pricePerNight": {
             "type": "number",

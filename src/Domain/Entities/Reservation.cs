@@ -20,12 +20,6 @@
 
         public Hotel Hotel { get; set; }
 
-        public decimal Prce { get; set; }
-
-        public DateTime FromDate { get; set; }
-
-        public DateTime ToDate { get; set; }
-
         public string OfferId { get; set; }
 
         public Offer Offer { get; set; }

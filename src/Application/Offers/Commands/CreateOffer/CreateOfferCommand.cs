@@ -10,8 +10,9 @@
     public record CreateOfferCommand(
         string HotelId,
         string RoomId,
-        DateTime FromDate,
-        DateTime ToDate,
+        DateTime CheckInDate,
+        DateTime CheckOutDate,
+        int MaxReservations,
         decimal PricePerNight,
         int MaxPeople) : IRequest<string>
     {
@@ -32,8 +33,9 @@
             {
                 HotelId = request.HotelId,
                 RoomId = request.RoomId,
-                FromDate = request.FromDate,
-                ToDate = request.ToDate,
+                CheckInDate = request.CheckInDate,
+                CheckOutDate = request.CheckOutDate,
+                MaxReservations = request.MaxReservations,
                 PricePerNight = request.PricePerNight,
                 MaxPeople = request.MaxPeople,
             };

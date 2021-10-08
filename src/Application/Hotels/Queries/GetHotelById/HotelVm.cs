@@ -1,7 +1,7 @@
 ﻿namespace Accommodation.Application.Hotels.Queries.GetHotelById
 {
     using System.Collections.Generic;
-    using Accommodation.Application.Offers.Queries.GetOffersByHotelId;
+    using Accommodation.Application.Offers.Queries.GetActiveOffersByHotelId;
     using Accommodation.Application.Reviews.Queries.GetReviewsByHotelId;
 
     public class HotelVm

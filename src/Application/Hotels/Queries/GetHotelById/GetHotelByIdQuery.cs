@@ -5,7 +5,7 @@
     using System.Threading.Tasks;
     using Accommodation.Application.Common.Exceptions;
     using Accommodation.Application.Common.Interfaces;
-    using Accommodation.Application.Offers.Queries.GetOffersByHotelId;
+    using Accommodation.Application.Offers.Queries.GetActiveOffersByHotelId;
     using Accommodation.Application.Reviews.Queries.GetReviewsByHotelId;
     using MediatR;
 
@@ -49,7 +49,7 @@
             }
 
             hotel.Reviews = await _mediator.Send(new GetReviewsByHotelIdQuery(request.HotelId));
-            hotel.Offers = await _mediator.Send(new GetOffersByHotelIdQuery(request.HotelId));
+            hotel.Offers = await _mediator.Send(new GetActiveOffersByHotelIdQuery(request.HotelId));
 
             return hotel;
         }

@@ -19,6 +19,7 @@
             this.Reviews = new HashSet<Review>();
             this.Rooms = new HashSet<Room>();
             this.Facilities = new HashSet<Facility>();
+            this.Reservations = new HashSet<Reservation>();
         }
 
         public string Id { get; set; }
@@ -44,5 +45,7 @@
         public ICollection<Review> Reviews { get; set; }
 
         public ICollection<Room> Rooms { get; set; }
+
+        public ICollection<Reservation> Reservations { get; set; }
     }
 }

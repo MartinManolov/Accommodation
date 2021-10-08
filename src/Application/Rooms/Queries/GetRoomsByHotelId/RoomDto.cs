@@ -1,7 +1,7 @@
 ﻿namespace Accommodation.Application.Rooms.Queries.GetRoomsByHotelId
 {
     using System.Collections.Generic;
-    using Accommodation.Application.Offers.Queries.GetOffersByHotelId;
+    using Accommodation.Application.Offers.Queries.GetActiveOffersByHotelId;
     using Accommodation.Domain.Entities;
 
     public class RoomDto
