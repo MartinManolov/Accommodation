@@ -1,16 +1,14 @@
-﻿using Accommodation.Application.Common.Interfaces;
-using Accommodation.Application.Offers.Queries.GetActiveOffersByHotelId;
-using AutoMapper;
-using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Accommodation.Application.Rooms.Queries.GetRoomsByHotelId
+﻿namespace Accommodation.Application.Rooms.Queries.GetRoomsByHotelId
 {
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Accommodation.Application.Common.Interfaces;
+    using Accommodation.Application.Offers.Queries.Common.Models;
+    using Accommodation.Application.Rooms.Queries.Common.Models;
+    using AutoMapper;
+    using MediatR;
+
     public record GetRoomsByHotelIdQuery(string HotelId) : IRequest<RoomsVm>
     {
     }
@@ -40,7 +38,7 @@ namespace Accommodation.Application.Rooms.Queries.GetRoomsByHotelId
                    Facilities = x.Facilities.Select(f => f.Name).ToList(),
                    Offers = x.Offers.Select(o => new OfferDto
                    {
-                       Id = x.Id,
+                       Id = o.Id,
                        RoomId = o.RoomId,
                        CheckInDate = o.CheckInDate,
                        CheckOutDate = o.CheckOutDate,

@@ -1,4 +1,4 @@
-﻿namespace Accommodation.Application.Rooms.Queries.GetRoomsByHotelId
+﻿namespace Accommodation.Application.Rooms.Queries.Common.Models
 {
     using System.Collections.Generic;
 

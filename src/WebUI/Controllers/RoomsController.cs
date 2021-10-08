@@ -1,4 +1,5 @@
 ﻿using Accommodation.Application.Rooms.Commands.CreateRoom;
+using Accommodation.Application.Rooms.Queries.Common.Models;
 using Accommodation.Application.Rooms.Queries.GetRoomsByHotelId;
 using Microsoft.AspNetCore.Mvc;
 using System;

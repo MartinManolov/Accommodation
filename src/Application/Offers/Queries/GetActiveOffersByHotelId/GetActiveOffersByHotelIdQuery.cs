@@ -4,6 +4,7 @@
     using System.Threading;
     using System.Threading.Tasks;
     using Accommodation.Application.Common.Interfaces;
+    using Accommodation.Application.Offers.Queries.Common.Models;
     using AutoMapper;
     using MediatR;
     using Microsoft.EntityFrameworkCore;

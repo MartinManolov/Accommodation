@@ -1,4 +1,5 @@
 ﻿using Accommodation.Application.Offers.Commands.CreateOffer;
+using Accommodation.Application.Offers.Queries.Common.Models;
 using Accommodation.Application.Offers.Queries.GetActiveOffersByHotelId;
 using Microsoft.AspNetCore.Mvc;
 using System;
