@@ -1,5 +1,6 @@
 ﻿using Accommodation.Application.Rooms.Commands.CreateRoom;
 using Accommodation.Application.Rooms.Queries.Common.Models;
+using Accommodation.Application.Rooms.Queries.GetRoomById;
 using Accommodation.Application.Rooms.Queries.GetRoomsByHotelId;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -21,8 +22,17 @@ namespace Accommodation.WebUI.Controllers
         }
 
         // GET api/<RoomsController>/5
-        [HttpGet("{hotelId}")]
-        public async Task<ActionResult<RoomsVm>> Get(string hotelId)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<RoomDto>> Get(string id) 
+        {
+            var vm = await Mediator.Send(new GetRoomByIdQuery(id));
+
+            return Ok(vm);
+        }
+
+        [Route("[action]/{hotelId}")]
+        [HttpGet]
+        public async Task<ActionResult<RoomsVm>> GetbyHotelId(string hotelId)
         {
             var vm = await Mediator.Send(new GetRoomsByHotelIdQuery(hotelId));
 

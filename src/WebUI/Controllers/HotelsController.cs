@@ -25,10 +25,10 @@ namespace Accommodation.WebUI.Controllers
             return base.Ok(vm);
         }
 
-        [HttpGet("{hotelId}")]
-        public async Task<ActionResult<HotelVm>> Get(string hotelId)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<HotelVm>> Get(string id)
         {
-            var vm = await Mediator.Send(new GetHotelByIdQuery(hotelId));
+            var vm = await Mediator.Send(new GetHotelByIdQuery(id));
 
             return base.Ok(vm);
         }

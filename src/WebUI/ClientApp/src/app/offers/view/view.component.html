@@ -1,1 +1,7 @@
-<p>view works!</p>
+{{offer$ | async | json}}
+<div *ngIf="(offer$| async) as offer">
+
+////]\
+
+<app-room-view [id]='offer.roomId'></app-room-view>
+</div>

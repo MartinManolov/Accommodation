@@ -32,13 +32,14 @@
                     <h4 class="my-0 fw-normal">Free</h4>
                   </div>
                   <div class="card-body">
-                    <h1 class="card-title pricing-card-title">${{offer.pricePerNight}}<small class="text-muted fw-light">/per night</small></h1>
+                    <h1 class="card-title pricing-card-title">${{offer.wholePrice}}<small class="text-muted fw-light"></small></h1>
+                    <h3 class="card-title pricing-card-title">{{offer.nights}} X ${{offer.pricePerNight}}<small class="text-muted fw-light">/per night</small></h3>
                     <ul class="list-unstyled mt-3 mb-4">
-                      <li>from {{offer.fromDate}}</li>
-                      <li>to {{offer.toDate}}</li>
+                      <li>Check in: {{offer.checkInDate | date:'mediumDate'}}</li>
+                      <li>Ckeck out: {{offer.checkOutDate | date:'mediumDate'}}</li>
                       <li>Max people: {{offer.maxPeople}}</li>
                     </ul>
-                    <button type="button" class="w-100 btn btn-lg btn-outline-primary">To Reservation</button>
+                    <button [routerLink]="['/offers', offer.id]" type="button" class="w-100 btn btn-lg btn-outline-primary">To Reservation</button>
                   </div>
                 </div>
               </div>

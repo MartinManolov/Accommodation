@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ViewComponent } from './view/view.component';
-import { RouterModule } from '@angular/router';
-import { RoomsModule } from '../rooms/rooms.module';
 
 
 
@@ -11,12 +9,10 @@ import { RoomsModule } from '../rooms/rooms.module';
     ViewComponent
   ],
   imports: [
-    CommonModule,
-    RouterModule,
-    RoomsModule
+    CommonModule
   ],
   exports: [
     ViewComponent
   ]
 })
-export class OffersModule { }
+export class RoomsModule { }

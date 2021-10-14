@@ -17,11 +17,11 @@ export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 export interface IHotelsService {
     getAll(): Observable<HotelsListVm>;
     post(command: CreateHotelCommand): Observable<number>;
-    get(hotelId: string | null): Observable<HotelVm>;
-    getByCity(city: string | null): Observable<HotelVm>;
-    getByCountry(country: string | null): Observable<HotelVm>;
+    get(id: string | null): Observable<HotelVm>;
     put(id: number, value: string): Observable<void>;
     delete(id: string | null): Observable<FileResponse>;
+    getByCity(city: string | null): Observable<HotelVm>;
+    getByCountry(country: string | null): Observable<HotelVm>;
 }
 
 @Injectable({
@@ -137,11 +137,11 @@ export class HotelsService implements IHotelsService {
         return _observableOf<number>(<any>null);
     }
 
-    get(hotelId: string | null): Observable<HotelVm> {
-        let url_ = this.baseUrl + "/api/Hotels/{hotelId}";
-        if (hotelId === undefined || hotelId === null)
-            throw new Error("The parameter 'hotelId' must be defined.");
-        url_ = url_.replace("{hotelId}", encodeURIComponent("" + hotelId));
+    get(id: string | null): Observable<HotelVm> {
+        let url_ = this.baseUrl + "/api/Hotels/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -167,108 +167,6 @@ export class HotelsService implements IHotelsService {
     }
 
     protected processGet(response: HttpResponseBase): Observable<HotelVm> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = HotelVm.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<HotelVm>(<any>null);
-    }
-
-    getByCity(city: string | null): Observable<HotelVm> {
-        let url_ = this.baseUrl + "/api/Hotels/GetByCity/{city}";
-        if (city === undefined || city === null)
-            throw new Error("The parameter 'city' must be defined.");
-        url_ = url_.replace("{city}", encodeURIComponent("" + city));
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetByCity(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetByCity(<any>response_);
-                } catch (e) {
-                    return <Observable<HotelVm>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<HotelVm>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetByCity(response: HttpResponseBase): Observable<HotelVm> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = HotelVm.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<HotelVm>(<any>null);
-    }
-
-    getByCountry(country: string | null): Observable<HotelVm> {
-        let url_ = this.baseUrl + "/api/Hotels/GetByCountry/{country}";
-        if (country === undefined || country === null)
-            throw new Error("The parameter 'country' must be defined.");
-        url_ = url_.replace("{country}", encodeURIComponent("" + country));
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetByCountry(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetByCountry(<any>response_);
-                } catch (e) {
-                    return <Observable<HotelVm>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<HotelVm>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetByCountry(response: HttpResponseBase): Observable<HotelVm> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -389,14 +287,117 @@ export class HotelsService implements IHotelsService {
         }
         return _observableOf<FileResponse>(<any>null);
     }
+
+    getByCity(city: string | null): Observable<HotelVm> {
+        let url_ = this.baseUrl + "/api/Hotels/GetByCity/{city}";
+        if (city === undefined || city === null)
+            throw new Error("The parameter 'city' must be defined.");
+        url_ = url_.replace("{city}", encodeURIComponent("" + city));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetByCity(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetByCity(<any>response_);
+                } catch (e) {
+                    return <Observable<HotelVm>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<HotelVm>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetByCity(response: HttpResponseBase): Observable<HotelVm> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = HotelVm.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<HotelVm>(<any>null);
+    }
+
+    getByCountry(country: string | null): Observable<HotelVm> {
+        let url_ = this.baseUrl + "/api/Hotels/GetByCountry/{country}";
+        if (country === undefined || country === null)
+            throw new Error("The parameter 'country' must be defined.");
+        url_ = url_.replace("{country}", encodeURIComponent("" + country));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetByCountry(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetByCountry(<any>response_);
+                } catch (e) {
+                    return <Observable<HotelVm>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<HotelVm>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetByCountry(response: HttpResponseBase): Observable<HotelVm> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = HotelVm.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<HotelVm>(<any>null);
+    }
 }
 
 export interface IOffersService {
     getAll(): Observable<string[]>;
     post(command: CreateOfferCommand): Observable<string>;
-    get(hotelIdQuery: string | null | undefined, hotelIdPath: string): Observable<OffersListVm>;
+    get(id: string | null): Observable<OfferDto>;
     put(id: number, value: string): Observable<void>;
     delete(id: number): Observable<void>;
+    getByHotelId(hotelId: string | null): Observable<OffersListVm>;
 }
 
 @Injectable({
@@ -519,13 +520,11 @@ export class OffersService implements IOffersService {
         return _observableOf<string>(<any>null);
     }
 
-    get(hotelIdQuery: string | null | undefined, hotelIdPath: string): Observable<OffersListVm> {
-        let url_ = this.baseUrl + "/api/Offers/{hotelId}?";
-        if (hotelIdPath === undefined || hotelIdPath === null)
-            throw new Error("The parameter 'hotelIdPath' must be defined.");
-        url_ = url_.replace("{hotelId}", encodeURIComponent("" + hotelIdPath));
-        if (hotelIdQuery !== undefined && hotelIdQuery !== null)
-            url_ += "hotelId=" + encodeURIComponent("" + hotelIdQuery) + "&";
+    get(id: string | null): Observable<OfferDto> {
+        let url_ = this.baseUrl + "/api/Offers/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -543,14 +542,14 @@ export class OffersService implements IOffersService {
                 try {
                     return this.processGet(<any>response_);
                 } catch (e) {
-                    return <Observable<OffersListVm>><any>_observableThrow(e);
+                    return <Observable<OfferDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<OffersListVm>><any>_observableThrow(response_);
+                return <Observable<OfferDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGet(response: HttpResponseBase): Observable<OffersListVm> {
+    protected processGet(response: HttpResponseBase): Observable<OfferDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -561,7 +560,7 @@ export class OffersService implements IOffersService {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = OffersListVm.fromJS(resultData200);
+            result200 = OfferDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -569,7 +568,7 @@ export class OffersService implements IOffersService {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<OffersListVm>(<any>null);
+        return _observableOf<OfferDto>(<any>null);
     }
 
     put(id: number, value: string): Observable<void> {
@@ -669,14 +668,66 @@ export class OffersService implements IOffersService {
         }
         return _observableOf<void>(<any>null);
     }
+
+    getByHotelId(hotelId: string | null): Observable<OffersListVm> {
+        let url_ = this.baseUrl + "/api/Offers/GetByHotelId/{hotelId}";
+        if (hotelId === undefined || hotelId === null)
+            throw new Error("The parameter 'hotelId' must be defined.");
+        url_ = url_.replace("{hotelId}", encodeURIComponent("" + hotelId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetByHotelId(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetByHotelId(<any>response_);
+                } catch (e) {
+                    return <Observable<OffersListVm>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<OffersListVm>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetByHotelId(response: HttpResponseBase): Observable<OffersListVm> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = OffersListVm.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<OffersListVm>(<any>null);
+    }
 }
 
 export interface IRoomsService {
     getAll(): Observable<string[]>;
     post(command: CreateRoomCommand): Observable<string>;
-    get(hotelId: string | null): Observable<RoomsVm>;
+    get(id: string | null): Observable<RoomDto>;
     put(id: number, value: string): Observable<void>;
     delete(id: number): Observable<void>;
+    getbyHotelId(hotelId: string | null): Observable<RoomsVm>;
 }
 
 @Injectable({
@@ -799,11 +850,11 @@ export class RoomsService implements IRoomsService {
         return _observableOf<string>(<any>null);
     }
 
-    get(hotelId: string | null): Observable<RoomsVm> {
-        let url_ = this.baseUrl + "/api/Rooms/{hotelId}";
-        if (hotelId === undefined || hotelId === null)
-            throw new Error("The parameter 'hotelId' must be defined.");
-        url_ = url_.replace("{hotelId}", encodeURIComponent("" + hotelId));
+    get(id: string | null): Observable<RoomDto> {
+        let url_ = this.baseUrl + "/api/Rooms/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -821,14 +872,14 @@ export class RoomsService implements IRoomsService {
                 try {
                     return this.processGet(<any>response_);
                 } catch (e) {
-                    return <Observable<RoomsVm>><any>_observableThrow(e);
+                    return <Observable<RoomDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<RoomsVm>><any>_observableThrow(response_);
+                return <Observable<RoomDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGet(response: HttpResponseBase): Observable<RoomsVm> {
+    protected processGet(response: HttpResponseBase): Observable<RoomDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -839,7 +890,7 @@ export class RoomsService implements IRoomsService {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = RoomsVm.fromJS(resultData200);
+            result200 = RoomDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -847,7 +898,7 @@ export class RoomsService implements IRoomsService {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<RoomsVm>(<any>null);
+        return _observableOf<RoomDto>(<any>null);
     }
 
     put(id: number, value: string): Observable<void> {
@@ -946,6 +997,57 @@ export class RoomsService implements IRoomsService {
             }));
         }
         return _observableOf<void>(<any>null);
+    }
+
+    getbyHotelId(hotelId: string | null): Observable<RoomsVm> {
+        let url_ = this.baseUrl + "/api/Rooms/GetbyHotelId/{hotelId}";
+        if (hotelId === undefined || hotelId === null)
+            throw new Error("The parameter 'hotelId' must be defined.");
+        url_ = url_.replace("{hotelId}", encodeURIComponent("" + hotelId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetbyHotelId(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetbyHotelId(<any>response_);
+                } catch (e) {
+                    return <Observable<RoomsVm>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<RoomsVm>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetbyHotelId(response: HttpResponseBase): Observable<RoomsVm> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = RoomsVm.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<RoomsVm>(<any>null);
     }
 }
 
@@ -1517,50 +1619,6 @@ export interface ICreateOfferCommand {
     maxPeople?: number;
 }
 
-export class RoomsVm implements IRoomsVm {
-    rooms?: RoomDto[] | undefined;
-
-    constructor(data?: IRoomsVm) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            if (Array.isArray(_data["rooms"])) {
-                this.rooms = [] as any;
-                for (let item of _data["rooms"])
-                    this.rooms!.push(RoomDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): RoomsVm {
-        data = typeof data === 'object' ? data : {};
-        let result = new RoomsVm();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.rooms)) {
-            data["rooms"] = [];
-            for (let item of this.rooms)
-                data["rooms"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IRoomsVm {
-    rooms?: RoomDto[] | undefined;
-}
-
 export class RoomDto implements IRoomDto {
     id?: string | undefined;
     sleeps?: number;
@@ -1635,6 +1693,50 @@ export interface IRoomDto {
     view?: string | undefined;
     facilities?: string[] | undefined;
     offers?: OfferDto[] | undefined;
+}
+
+export class RoomsVm implements IRoomsVm {
+    rooms?: RoomDto[] | undefined;
+
+    constructor(data?: IRoomsVm) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["rooms"])) {
+                this.rooms = [] as any;
+                for (let item of _data["rooms"])
+                    this.rooms!.push(RoomDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): RoomsVm {
+        data = typeof data === 'object' ? data : {};
+        let result = new RoomsVm();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.rooms)) {
+            data["rooms"] = [];
+            for (let item of this.rooms)
+                data["rooms"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IRoomsVm {
+    rooms?: RoomDto[] | undefined;
 }
 
 export class CreateRoomCommand implements ICreateRoomCommand {

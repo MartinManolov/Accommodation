@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute} from '@angular/router';
 import { Observable } from 'rxjs';
 import { HotelsService, HotelVm } from 'src/app/web-api-client';
 
 @Component({
-  selector: 'app-view',
+  selector: 'app-hotel-view',
   templateUrl: './view.component.html',
   styleUrls: ['./view.component.scss']
 })

@@ -12,6 +12,14 @@ export const routes: Routes = [
     path: 'hotels',
     loadChildren: () => import('./hotel/hotels-routing.module').then(m => m.HotelsRoutingModule)
   },
+  {
+    path: 'offers',
+    loadChildren: () => import('./offers/offers-routing.module').then(m => m.OffersRoutingModule)
+  },
+  {
+    path: 'rooms',
+    loadChildren: () => import('./rooms/rooms-routing.module').then(m => m.RoomsRoutingModule)
+  },
 ];
 
 @NgModule({

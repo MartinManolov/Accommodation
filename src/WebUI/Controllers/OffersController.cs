@@ -1,6 +1,7 @@
 ﻿using Accommodation.Application.Offers.Commands.CreateOffer;
 using Accommodation.Application.Offers.Queries.Common.Models;
 using Accommodation.Application.Offers.Queries.GetActiveOffersByHotelId;
+using Accommodation.Application.Offers.Queries.GetOfferById;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -20,9 +21,19 @@ namespace Accommodation.WebUI.Controllers
             return new string[] { "value1", "value2" };
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<OfferDto>> Get(string id)
+        {
+            var vm = await this.Mediator.Send(new GetOfferByIdQuery(id));
+
+            return this.Ok(vm);
+        }
+
+
         // GET api/<OffersController>/5
-        [HttpGet("{hotelId}")]
-        public async Task<ActionResult<OffersListVm>> Get([FromQuery] string hotelId)
+        [Route("[action]/{hotelId}")]
+        [HttpGet]
+        public async Task<ActionResult<OffersListVm>> GetByHotelId(string hotelId)
         {
             var vm = await this.Mediator.Send(new GetActiveOffersByHotelIdQuery(hotelId));
 

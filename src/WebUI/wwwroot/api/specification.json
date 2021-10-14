@@ -57,7 +57,7 @@
         }
       }
     },
-    "/api/Hotels/{hotelId}": {
+    "/api/Hotels/{id}": {
       "get": {
         "tags": [
           "Hotels"
@@ -65,7 +65,7 @@
         "operationId": "Hotels_Get",
         "parameters": [
           {
-            "name": "hotelId",
+            "name": "id",
             "in": "path",
             "required": true,
             "schema": {
@@ -82,6 +82,72 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/HotelVm"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Hotels"
+        ],
+        "operationId": "Hotels_Put",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "value",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Hotels"
+        ],
+        "operationId": "Hotels_Delete",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
                 }
               }
             }
@@ -153,74 +219,6 @@
         }
       }
     },
-    "/api/Hotels/{id}": {
-      "put": {
-        "tags": [
-          "Hotels"
-        ],
-        "operationId": "Hotels_Put",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 1
-          }
-        ],
-        "requestBody": {
-          "x-name": "value",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "string"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 2
-        },
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Hotels"
-        ],
-        "operationId": "Hotels_Delete",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 1
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/octet-stream": {
-                "schema": {
-                  "type": "string",
-                  "format": "binary"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/Offers": {
       "get": {
         "tags": [
@@ -274,7 +272,7 @@
         }
       }
     },
-    "/api/Offers/{hotelId}": {
+    "/api/Offers/{id}": {
       "get": {
         "tags": [
           "Offers"
@@ -282,22 +280,14 @@
         "operationId": "Offers_Get",
         "parameters": [
           {
-            "name": "hotelId",
-            "in": "query",
+            "name": "id",
+            "in": "path",
+            "required": true,
             "schema": {
               "type": "string",
               "nullable": true
             },
             "x-position": 1
-          },
-          {
-            "name": "hotelId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "x-position": 2
           }
         ],
         "responses": {
@@ -306,15 +296,13 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/OffersListVm"
+                  "$ref": "#/components/schemas/OfferDto"
                 }
               }
             }
           }
         }
-      }
-    },
-    "/api/Offers/{id}": {
+      },
       "put": {
         "tags": [
           "Offers"
@@ -374,6 +362,38 @@
         }
       }
     },
+    "/api/Offers/GetByHotelId/{hotelId}": {
+      "get": {
+        "tags": [
+          "Offers"
+        ],
+        "operationId": "Offers_GetByHotelId",
+        "parameters": [
+          {
+            "name": "hotelId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OffersListVm"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Rooms": {
       "get": {
         "tags": [
@@ -427,7 +447,7 @@
         }
       }
     },
-    "/api/Rooms/{hotelId}": {
+    "/api/Rooms/{id}": {
       "get": {
         "tags": [
           "Rooms"
@@ -435,7 +455,7 @@
         "operationId": "Rooms_Get",
         "parameters": [
           {
-            "name": "hotelId",
+            "name": "id",
             "in": "path",
             "required": true,
             "schema": {
@@ -451,15 +471,13 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RoomsVm"
+                  "$ref": "#/components/schemas/RoomDto"
                 }
               }
             }
           }
         }
-      }
-    },
-    "/api/Rooms/{id}": {
+      },
       "put": {
         "tags": [
           "Rooms"
@@ -515,6 +533,38 @@
         "responses": {
           "200": {
             "description": ""
+          }
+        }
+      }
+    },
+    "/api/Rooms/GetbyHotelId/{hotelId}": {
+      "get": {
+        "tags": [
+          "Rooms"
+        ],
+        "operationId": "Rooms_GetbyHotelId",
+        "parameters": [
+          {
+            "name": "hotelId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomsVm"
+                }
+              }
+            }
           }
         }
       }
@@ -813,19 +863,6 @@
           }
         }
       },
-      "RoomsVm": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "rooms": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/RoomDto"
-            }
-          }
-        }
-      },
       "RoomDto": {
         "type": "object",
         "additionalProperties": false,
@@ -862,6 +899,19 @@
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/OfferDto"
+            }
+          }
+        }
+      },
+      "RoomsVm": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "rooms": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/RoomDto"
             }
           }
         }
