@@ -1,4 +1,4 @@
-﻿namespace Accommodation.Application.Guests.Commands
+﻿namespace Accommodation.Application.Guests.Commands.CreateGuest
 {
     using System.Threading;
     using System.Threading.Tasks;
