@@ -1,7 +1,7 @@
 ﻿namespace Accommodation.Domain.Entities
 {
-    using Accommodation.Domain.Common;
     using System;
+    using Accommodation.Domain.Common;
 
     public class Reservation : AuditableEntity
     {

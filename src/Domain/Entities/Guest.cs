@@ -1,8 +1,8 @@
-﻿using Accommodation.Domain.Common;
-using System;
-
-namespace Accommodation.Domain.Entities
+﻿namespace Accommodation.Domain.Entities
 {
+    using System;
+    using Accommodation.Domain.Common;
+
     public class Guest : AuditableEntity
     {
         public Guest()
