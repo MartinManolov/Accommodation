@@ -17,6 +17,7 @@ import { HomeComponent } from './shared/home/home.component';
 import { TokenComponent } from './shared/token/token.component';
 import { RoomsModule } from './rooms/rooms.module';
 import { OffersModule } from './offers/offers.module';
+import { ReservationsModule } from './reservations/reservations.module';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import { OffersModule } from './offers/offers.module';
     HotelModule,
     RoomsModule,
     OffersModule,
+    ReservationsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },

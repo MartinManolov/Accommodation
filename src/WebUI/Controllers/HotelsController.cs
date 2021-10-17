@@ -52,7 +52,7 @@ namespace Accommodation.WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<int>> Post([FromBody] CreateHotelCommand command)
+        public async Task<ActionResult<string>> Post([FromBody] CreateHotelCommand command)
         {
             var hotelId = await Mediator.Send(command);
             return Ok(hotelId);

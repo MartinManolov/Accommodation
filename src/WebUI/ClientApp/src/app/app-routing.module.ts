@@ -20,6 +20,10 @@ export const routes: Routes = [
     path: 'rooms',
     loadChildren: () => import('./rooms/rooms-routing.module').then(m => m.RoomsRoutingModule)
   },
+  {
+    path: 'reservations',
+    loadChildren: () => import('./reservations/reservations-routing.module').then(m => m.ReservationsRoutingModule)
+  },
 ];
 
 @NgModule({

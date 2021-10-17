@@ -1,0 +1,20 @@
+<form [formGroup]="reservationForm" (ngSubmit)="create()">
+    <div class="form-group">
+      <label for="firstName">First name</label>
+      <input type="text" class="form-control" id="firstName" placeholder="Enter first name" formControlName="firstName">
+     
+    </div>
+    <div class="form-group">
+        <label for="lastName">Last name</label>
+        <input type="text" class="form-control" id="lastName" placeholder="Enter last name" formControlName="lastName">
+      </div>
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" formControlName="email">
+      </div>
+      <div class="form-group">
+        <label for="phoneNumber">Phone number</label>
+        <input type="text" class="form-control" id="phoneNumber" aria-describedby="emailHelp" placeholder="Enter phone number" formControlName="phoneNumber">
+      </div>
+    <button type="submit" class="btn btn-primary">Book</button>
+  </form>

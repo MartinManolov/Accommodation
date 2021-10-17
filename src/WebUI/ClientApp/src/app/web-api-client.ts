@@ -16,7 +16,7 @@ export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
 export interface IHotelsService {
     getAll(): Observable<HotelsListVm>;
-    post(command: CreateHotelCommand): Observable<number>;
+    post(command: CreateHotelCommand): Observable<string>;
     get(id: string | null): Observable<HotelVm>;
     put(id: number, value: string): Observable<void>;
     delete(id: string | null): Observable<FileResponse>;
@@ -85,7 +85,7 @@ export class HotelsService implements IHotelsService {
         return _observableOf<HotelsListVm>(<any>null);
     }
 
-    post(command: CreateHotelCommand): Observable<number> {
+    post(command: CreateHotelCommand): Observable<string> {
         let url_ = this.baseUrl + "/api/Hotels";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -108,14 +108,14 @@ export class HotelsService implements IHotelsService {
                 try {
                     return this.processPost(<any>response_);
                 } catch (e) {
-                    return <Observable<number>><any>_observableThrow(e);
+                    return <Observable<string>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<number>><any>_observableThrow(response_);
+                return <Observable<string>><any>_observableThrow(response_);
         }));
     }
 
-    protected processPost(response: HttpResponseBase): Observable<number> {
+    protected processPost(response: HttpResponseBase): Observable<string> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -134,7 +134,7 @@ export class HotelsService implements IHotelsService {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<number>(<any>null);
+        return _observableOf<string>(<any>null);
     }
 
     get(id: string | null): Observable<HotelVm> {
@@ -718,6 +718,277 @@ export class OffersService implements IOffersService {
             }));
         }
         return _observableOf<OffersListVm>(<any>null);
+    }
+}
+
+export interface IReservationsService {
+    get(id: string | null): Observable<UserReservationDto>;
+    put(id: number, value: string): Observable<void>;
+    delete(id: number): Observable<void>;
+    getAllByUser(): Observable<UserReservationsListVm>;
+    post(command: CreateReservationCommand): Observable<string>;
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class ReservationsService implements IReservationsService {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    get(id: string | null): Observable<UserReservationDto> {
+        let url_ = this.baseUrl + "/api/Reservations/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(<any>response_);
+                } catch (e) {
+                    return <Observable<UserReservationDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<UserReservationDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<UserReservationDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = UserReservationDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<UserReservationDto>(<any>null);
+    }
+
+    put(id: number, value: string): Observable<void> {
+        let url_ = this.baseUrl + "/api/Reservations/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(value);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processPut(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processPut(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processPut(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    delete(id: number): Observable<void> {
+        let url_ = this.baseUrl + "/api/Reservations/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    getAllByUser(): Observable<UserReservationsListVm> {
+        let url_ = this.baseUrl + "/api/Reservations/GetAllByUser";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllByUser(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllByUser(<any>response_);
+                } catch (e) {
+                    return <Observable<UserReservationsListVm>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<UserReservationsListVm>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllByUser(response: HttpResponseBase): Observable<UserReservationsListVm> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = UserReservationsListVm.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<UserReservationsListVm>(<any>null);
+    }
+
+    post(command: CreateReservationCommand): Observable<string> {
+        let url_ = this.baseUrl + "/api/Reservations";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(command);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processPost(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processPost(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processPost(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
     }
 }
 
@@ -1617,6 +1888,190 @@ export interface ICreateOfferCommand {
     maxReservations?: number;
     pricePerNight?: number;
     maxPeople?: number;
+}
+
+export class UserReservationDto implements IUserReservationDto {
+    id?: string | undefined;
+    firstName?: string | undefined;
+    lastName?: string | undefined;
+    email?: string | undefined;
+    phoneNumber?: string | undefined;
+    hotelName?: string | undefined;
+    hotelPhoneNumber?: string | undefined;
+    hotelEmail?: string | undefined;
+    city?: string | undefined;
+    country?: string | undefined;
+    price?: number;
+    nights?: number;
+    checkIn?: Date;
+    checkOut?: Date;
+
+    constructor(data?: IUserReservationDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.firstName = _data["firstName"];
+            this.lastName = _data["lastName"];
+            this.email = _data["email"];
+            this.phoneNumber = _data["phoneNumber"];
+            this.hotelName = _data["hotelName"];
+            this.hotelPhoneNumber = _data["hotelPhoneNumber"];
+            this.hotelEmail = _data["hotelEmail"];
+            this.city = _data["city"];
+            this.country = _data["country"];
+            this.price = _data["price"];
+            this.nights = _data["nights"];
+            this.checkIn = _data["checkIn"] ? new Date(_data["checkIn"].toString()) : <any>undefined;
+            this.checkOut = _data["checkOut"] ? new Date(_data["checkOut"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): UserReservationDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserReservationDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["firstName"] = this.firstName;
+        data["lastName"] = this.lastName;
+        data["email"] = this.email;
+        data["phoneNumber"] = this.phoneNumber;
+        data["hotelName"] = this.hotelName;
+        data["hotelPhoneNumber"] = this.hotelPhoneNumber;
+        data["hotelEmail"] = this.hotelEmail;
+        data["city"] = this.city;
+        data["country"] = this.country;
+        data["price"] = this.price;
+        data["nights"] = this.nights;
+        data["checkIn"] = this.checkIn ? this.checkIn.toISOString() : <any>undefined;
+        data["checkOut"] = this.checkOut ? this.checkOut.toISOString() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IUserReservationDto {
+    id?: string | undefined;
+    firstName?: string | undefined;
+    lastName?: string | undefined;
+    email?: string | undefined;
+    phoneNumber?: string | undefined;
+    hotelName?: string | undefined;
+    hotelPhoneNumber?: string | undefined;
+    hotelEmail?: string | undefined;
+    city?: string | undefined;
+    country?: string | undefined;
+    price?: number;
+    nights?: number;
+    checkIn?: Date;
+    checkOut?: Date;
+}
+
+export class UserReservationsListVm implements IUserReservationsListVm {
+    reservations?: UserReservationDto[] | undefined;
+
+    constructor(data?: IUserReservationsListVm) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["reservations"])) {
+                this.reservations = [] as any;
+                for (let item of _data["reservations"])
+                    this.reservations!.push(UserReservationDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): UserReservationsListVm {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserReservationsListVm();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.reservations)) {
+            data["reservations"] = [];
+            for (let item of this.reservations)
+                data["reservations"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IUserReservationsListVm {
+    reservations?: UserReservationDto[] | undefined;
+}
+
+export class CreateReservationCommand implements ICreateReservationCommand {
+    firstName?: string | undefined;
+    lastName?: string | undefined;
+    email?: string | undefined;
+    phoneNumber?: string | undefined;
+    offerId?: string | undefined;
+
+    constructor(data?: ICreateReservationCommand) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.firstName = _data["firstName"];
+            this.lastName = _data["lastName"];
+            this.email = _data["email"];
+            this.phoneNumber = _data["phoneNumber"];
+            this.offerId = _data["offerId"];
+        }
+    }
+
+    static fromJS(data: any): CreateReservationCommand {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateReservationCommand();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["firstName"] = this.firstName;
+        data["lastName"] = this.lastName;
+        data["email"] = this.email;
+        data["phoneNumber"] = this.phoneNumber;
+        data["offerId"] = this.offerId;
+        return data; 
+    }
+}
+
+export interface ICreateReservationCommand {
+    firstName?: string | undefined;
+    lastName?: string | undefined;
+    email?: string | undefined;
+    phoneNumber?: string | undefined;
+    offerId?: string | undefined;
 }
 
 export class RoomDto implements IRoomDto {

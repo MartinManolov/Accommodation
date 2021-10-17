@@ -1,5 +1,6 @@
 ﻿namespace Accommodation.Application.Reservations.Commands.CreateReservation
 {
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using Accommodation.Application.Common.Interfaces;
@@ -12,7 +13,6 @@
         string LastName,
         string Email,
         string PhoneNumber,
-        string HotelId,
         string OfferId) : IRequest<string>
     {
     }
@@ -35,10 +35,15 @@
                                                                 request.LastName,
                                                                 request.Email,
                                                                 request.PhoneNumber));
+            var hotelId = _context.Offers
+                            .Where(x => x.Id == request.OfferId)
+                            .Select(x => x.HotelId)
+                            .FirstOrDefault();
+
             var reservation = new Reservation
             {
                 GuestId = guestId,
-                HotelId = request.HotelId,
+                HotelId = hotelId,
                 OfferId = request.OfferId,
             };
 
