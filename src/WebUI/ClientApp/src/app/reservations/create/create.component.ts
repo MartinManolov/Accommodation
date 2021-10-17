@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CreateReservationCommand, ReservationsService } from 'src/app/web-api-client';
 
 @Component({
@@ -17,7 +17,10 @@ export class CreateComponent implements OnInit {
   })
 
   offerId: string ;
-  constructor(private fb: FormBuilder, private route: ActivatedRoute, private reservationService: ReservationsService) { }
+  constructor(private fb: FormBuilder,
+              private route: ActivatedRoute,
+              private reservationService: ReservationsService,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.offerId = this.route.snapshot.params['id'];
@@ -26,8 +29,8 @@ export class CreateComponent implements OnInit {
   create(){
     let reservation:CreateReservationCommand = this.reservationForm.value;
     reservation.offerId = this.offerId;
-    this.reservationService.post(reservation).subscribe((data) => {
-      
+    this.reservationService.post(reservation).subscribe((id) => {
+      this.router.navigate(['/reservations', id]);
     })
   }
 }
