@@ -4,7 +4,6 @@ import { HomeComponent } from '../shared/home/home.component';
 import { ViewComponent } from './view/view.component';
 
 const routes: Routes = [
-  {path: '', component: ViewComponent, pathMatch: 'full'},
   {path: ':id', component: ViewComponent}
   ];
 

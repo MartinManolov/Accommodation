@@ -18,6 +18,7 @@ import { TokenComponent } from './shared/token/token.component';
 import { RoomsModule } from './rooms/rooms.module';
 import { OffersModule } from './offers/offers.module';
 import { ReservationsModule } from './reservations/reservations.module';
+import { SearchComponent } from './shared/search/search.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { ReservationsModule } from './reservations/reservations.module';
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    TokenComponent
+    TokenComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
