@@ -2,23 +2,22 @@
 using Accommodation.Application.Offers.Queries.Common.Models;
 using Accommodation.Application.Offers.Queries.GetActiveOffersByHotelId;
 using Accommodation.Application.Offers.Queries.GetOfferById;
+using Accommodation.Application.Offers.Queries.GetOffersBySearch;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Accommodation.WebUI.Controllers
 {
     public class OffersController : ApiControllerBase
     {
-        // GET: api/<OffersController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+
+        [HttpGet("search")]
+        public async Task<ActionResult<OffersListVm>> GetBySearch([FromQuery] GetOffersBySearchQuery query)
         {
-            return new string[] { "value1", "value2" };
+            var vm = await this.Mediator.Send(query);
+
+            return this.Ok(vm);
         }
 
         [HttpGet("{id}")]
@@ -30,7 +29,6 @@ namespace Accommodation.WebUI.Controllers
         }
 
 
-        // GET api/<OffersController>/5
         [Route("[action]/{hotelId}")]
         [HttpGet]
         public async Task<ActionResult<OffersListVm>> GetByHotelId(string hotelId)
@@ -40,7 +38,6 @@ namespace Accommodation.WebUI.Controllers
             return this.Ok(vm);
         }
 
-        // POST api/<OffersController>
         [HttpPost]
         public async Task<ActionResult<string>> Post([FromBody] CreateOfferCommand command)
         {
@@ -49,13 +46,11 @@ namespace Accommodation.WebUI.Controllers
             return this.Ok(offerId);
         }
 
-        // PUT api/<OffersController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE api/<OffersController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
