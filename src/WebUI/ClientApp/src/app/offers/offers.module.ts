@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { ViewComponent } from './view/view.component';
 import { RouterModule } from '@angular/router';
 import { RoomsModule } from '../rooms/rooms.module';
+import { ListComponent } from './list/list/list.component';
 
 
 
 @NgModule({
   declarations: [
-    ViewComponent
+    ViewComponent,
+    ListComponent
   ],
   imports: [
     CommonModule,
@@ -16,7 +18,8 @@ import { RoomsModule } from '../rooms/rooms.module';
     RoomsModule
   ],
   exports: [
-    ViewComponent
+    ViewComponent,
+    ListComponent
   ]
 })
 export class OffersModule { }

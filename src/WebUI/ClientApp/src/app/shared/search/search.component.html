@@ -1,28 +1,28 @@
 <div>
 <section class="search-sec">
     <div class="container">
-        <form action="#" method="post" novalidate="novalidate">
+        <form [formGroup]="searchForm" (ngSubmit)="Search()">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="row">
                         <div class="col-lg-3 col-md-3 col-sm-12 p-0">
                             <label>Parameter</label>
-                            <input type="text" class="form-control search-slt" placeholder="Name, City, Country">
+                            <input type="text" class="form-control search-slt" formControlName="parameter" placeholder="Name, City, Country">
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-12 p-0">
                             <label>Check In</label>
-                            <input type="date" class="form-control search-slt" placeholder="Check In">
+                            <input type="date" class="form-control search-slt"formControlName="checkIn" placeholder="Check In">
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-12 p-0">
                             <label>Check Out</label>
-                            <input type="date" class="form-control search-slt" placeholder="Check Out">
+                            <input type="date" class="form-control search-slt" formControlName="checkOut" placeholder="Check Out">
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-12 p-0">
                             <label>People</label>
-                            <input type="number" class="form-control search-slt" placeholder="Count">
+                            <input type="number" class="form-control search-slt" formControlName="people" placeholder="Count">
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-12 p-0">
-                            <button type="button" class="btn btn-danger wrn-btn">Search</button>
+                            <button type="submit" class="btn btn-danger wrn-btn">Search</button>
                         </div>
                     </div>
                 </div>
@@ -31,5 +31,11 @@
     </div>
 </section>
 </div>
+<button [routerLink]="['/hotels']" class="btn btn-primary btn-lg col-large"  >See all hotels</button>
+
+<div *ngIf="offers">
+    <app-offers-list [offers]="offers"></app-offers-list>
+</div>
+
 
 
