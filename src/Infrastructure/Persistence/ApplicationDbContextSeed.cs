@@ -16,6 +16,13 @@
                 await roleManager.CreateAsync(administratorRole);
             }
 
+            var hostRole = new IdentityRole("Host");
+
+            if (roleManager.Roles.All(r => r.Name != hostRole.Name))
+            {
+                await roleManager.CreateAsync(hostRole);
+            }
+
             var administrator = new ApplicationUser { UserName = "administrator@localhost", Email = "administrator@localhost" };
 
             if (userManager.Users.All(u => u.UserName != administrator.UserName))

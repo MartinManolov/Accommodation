@@ -59,7 +59,7 @@ namespace Accommodation.WebUI
             {
                 configuration.RootPath = "ClientApp/dist";
             });
-
+             
             services.AddOpenApiDocument(configure =>
             {
                 configure.Title = "Accommodation API";

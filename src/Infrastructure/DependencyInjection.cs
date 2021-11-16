@@ -4,6 +4,7 @@
     using Accommodation.Infrastructure.Identity;
     using Accommodation.Infrastructure.Persistence;
     using Accommodation.Infrastructure.Services;
+    using IdentityServer4.Services;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
@@ -44,6 +45,8 @@
 
             services.AddAuthentication()
                 .AddIdentityServerJwt();
+
+            services.AddTransient<IProfileService, ProfileService>();
 
             services.AddAuthorization(options =>
             {
