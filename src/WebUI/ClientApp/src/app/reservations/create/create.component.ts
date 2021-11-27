@@ -10,10 +10,10 @@ import { CreateReservationCommand, ReservationsService } from 'src/app/web-api-c
 })
 export class CreateComponent implements OnInit {
   reservationForm = this.fb.group({
-    firstName: [''],
-    lastName: [''],
-    email: [''],
-    phoneNumber: ['']
+    firstName: ['', [Validators.required]],
+    lastName: ['', [Validators.required]],
+    email: ['', [Validators.required]],
+    phoneNumber: ['', [Validators.required]]
   })
 
   offerId: string ;

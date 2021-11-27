@@ -1721,7 +1721,7 @@ export interface IOfferDto {
 
 export class CreateHotelCommand implements ICreateHotelCommand {
     name?: string | undefined;
-    desccription?: string | undefined;
+    description?: string | undefined;
     facilities?: CreateFacilityCommand[] | undefined;
     phoneNumber?: string | undefined;
     email?: string | undefined;
@@ -1742,7 +1742,7 @@ export class CreateHotelCommand implements ICreateHotelCommand {
     init(_data?: any) {
         if (_data) {
             this.name = _data["name"];
-            this.desccription = _data["desccription"];
+            this.description = _data["description"];
             if (Array.isArray(_data["facilities"])) {
                 this.facilities = [] as any;
                 for (let item of _data["facilities"])
@@ -1767,7 +1767,7 @@ export class CreateHotelCommand implements ICreateHotelCommand {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["name"] = this.name;
-        data["desccription"] = this.desccription;
+        data["description"] = this.description;
         if (Array.isArray(this.facilities)) {
             data["facilities"] = [];
             for (let item of this.facilities)
@@ -1785,7 +1785,7 @@ export class CreateHotelCommand implements ICreateHotelCommand {
 
 export interface ICreateHotelCommand {
     name?: string | undefined;
-    desccription?: string | undefined;
+    description?: string | undefined;
     facilities?: CreateFacilityCommand[] | undefined;
     phoneNumber?: string | undefined;
     email?: string | undefined;

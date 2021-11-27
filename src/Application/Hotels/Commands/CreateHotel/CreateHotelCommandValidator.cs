@@ -11,7 +11,7 @@
                 .MaximumLength(25)
                 .NotEmpty();
 
-            RuleFor(v => v.Desccription)
+            RuleFor(v => v.Description)
                 .MaximumLength(200);
 
             RuleFor(v => v.Email)

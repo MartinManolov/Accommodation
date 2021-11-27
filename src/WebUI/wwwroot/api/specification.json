@@ -963,7 +963,7 @@
             "type": "string",
             "nullable": true
           },
-          "desccription": {
+          "description": {
             "type": "string",
             "nullable": true
           },

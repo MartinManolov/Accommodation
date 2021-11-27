@@ -19,6 +19,7 @@ import { RoomsModule } from './rooms/rooms.module';
 import { OffersModule } from './offers/offers.module';
 import { ReservationsModule } from './reservations/reservations.module';
 import { SearchComponent } from './shared/search/search.component';
+import { AgmCoreModule } from '@agm/core';
 
 
 @NgModule({
@@ -43,6 +44,9 @@ import { SearchComponent } from './shared/search/search.component';
     RoomsModule,
     OffersModule,
     ReservationsModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyC8kGbx3eyIiprpHU4XiG-tCR3AlEjjRmo'
+    })
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
